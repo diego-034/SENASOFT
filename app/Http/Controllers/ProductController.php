@@ -26,7 +26,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function List()
+    public function List(Request $request)
     {
         try {
             if($request->isMethod('GET')) {
@@ -55,7 +55,6 @@ class ProductController extends Controller
             if($request->isMethod('GET')) {
                 return view('products.form-create');
             }
-            
             $data = [];
             $data['Model'] = $this->Product;
             $response = $this->IModelRepository->Insert($data);
