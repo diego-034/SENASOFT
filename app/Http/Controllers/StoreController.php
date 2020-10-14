@@ -27,26 +27,26 @@ class StoreController extends Controller
     {
         try {
             if($request->isMethod('GET')) {
-                return view('products.products');
+                return view('stores.stores');
             }
             $data = [];
             $data['Model'] = $this->Product;
             $data['Query'] = [
                 'id',
                 'name',
-                'stock',
-                'description',
-                'price',
-                'image',
-                'iva',
+                'address',
+                'document',
+                'phone',
                 'created_at'
             ];
             $data['Row'] = 'name';
-            Json::Json($request, $data);
+            $response = Json::Json($request, $data);
+            return response()->json($response);
         } catch (Exception $ex) {
             return $this->SendError([$ex->getMessage()]);
         }
     }
+
 
     /**
      * Insert data in DB
