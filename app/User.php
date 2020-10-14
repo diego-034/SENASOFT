@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\UserType;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -36,4 +37,12 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function userType() {
+        return $this->hasOne(UserType::class, 'id', 'user_type');
+    }
+
+    public function scopefindById($query, $id) {
+        return $query->where('id', '=', $id)->first();
+    }
 }

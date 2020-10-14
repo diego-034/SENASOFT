@@ -40,10 +40,9 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="{{ asset('js/libs/popper.min.js') }}"></script>
 <script src="{{ asset('js/libs/bootstrap.min.js') }}"></script>
-<script src="{{ asset('js/main.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/main.js') }}"></script>
 
 @stack('endBody')
 </body>

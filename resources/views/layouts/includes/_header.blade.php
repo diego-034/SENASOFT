@@ -56,15 +56,15 @@
                                      class="dropdown-menu dropdown-menu-right">
                                     <button type="button" tabindex="0" class="dropdown-item">Cuenta</button>
                                     <div tabindex="-1" class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                           onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            {{ __('Cerrar sesión') }}
-                                        </a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
+                                        {{ __('Cerrar sesión') }}
+                                    </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                                 {{ Auth::user()->name }}
                             </div>
                             <div class="widget-subheading">
-                                Administrador
+                                {{ Auth::user()->userType->type }}
                             </div>
                         </div>
                     </div>
