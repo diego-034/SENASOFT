@@ -8,10 +8,10 @@
     <script src="{{ asset('js/libs/jquery-confirm.min.js')}}"></script>
     <script src="{{ asset('js/libs/jquery.repeater.js')}}"></script>
     <script src="{{ asset('js/libs/select2.min.js')}}"></script>
-    @includeJS(["url" => "products/assets/_form.js"])
+    @includeJS(["url" => "products/assets/_form-create.js"])
 @endpush
 
-<form action="{{ route('products-form')  }}" method="POST" class="repeater"  onsubmit="handleSubmit()" enctype="multipart/form-data" id="customForm">
+<form action="{{ route('products-insert')  }}" method="POST" class="repeater"  onsubmit="handleSubmit()" enctype="multipart/form-data" id="customForm">
     @csrf
 
     <div class="loading d-none">
@@ -54,31 +54,6 @@
 
     <hr>
     <div data-repeater-list="producto">
-
-        <div class="row mt-4">
-
-            <div class="form-group col-sm-4">
-                <label class="control-label">Catálogo<span class="text-danger">*</span></label>
-                <select class="form-control" id="select2-catalogo" name="catalogo_id" required>
-                    <option></option>
-                    @foreach($catalogos as $key => $catalogo)
-                        <option value="{{$catalogo['id']}}"> {{$catalogo['name']}}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="form-group col-sm-4">
-                <label class="control-label">Categoría</span></label>
-                @php($selected = isset($Products) ?  $Products->category : ' ')
-                <select class="form-control select2" name="category" id="select2-category">
-                    <option></option>
-                    @foreach($categories as $item)
-                        <option value="{{$item}}" {{$selected==$item? 'selected':''}}> {{$item}}</option>
-                    @endforeach
-                </select>
-            </div>
-            
-        </div>
 
         <div data-repeater-item class="form-row border-bottom pt-3">
             
