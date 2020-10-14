@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
 use Exception;
@@ -17,7 +17,7 @@ class ProductController extends Controller
     {
         $this->IModelRepository = $IModelRepository;
         $this->Product = new Product();
-        $this->middleware(['auth', 'verified']);
+        $this->middleware('auth');
     }
 
     /**
@@ -35,9 +35,9 @@ class ProductController extends Controller
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
-            return view('products.products')->with('response', $response);
+            return $this->sendResponse($response, 'success');
         } catch (Exception $ex) {
-            $this->error();
+            return view('error');
         }
     }
 
@@ -55,9 +55,9 @@ class ProductController extends Controller
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
-            return view('products.products')->with('response', $response);
+            return view('products.products');
         } catch (Exception $ex) {
-            $this->error();
+            return view('error');
         }
     }
 
@@ -78,9 +78,9 @@ class ProductController extends Controller
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
-            return view('products.products')->with('response', $response);
+            return view('products.products');
         } catch (Exception $ex) {
-            $this->error();
+            return view('error');
         }
     }
 
@@ -99,9 +99,30 @@ class ProductController extends Controller
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
-            return view('products.products')->with('response', $response);
+            return view('products.products');
         } catch (Exception $ex) {
-            $this->error();
+            return view('error');
+        }
+    }
+
+    /**
+     * Search the specified resource with the filter.
+     *
+     * @param  \App\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function Find()
+    {
+        try {
+            $data = [];
+            $data['Model'] = $this->Product;
+            $Response = $this->IModelRepository->Delete($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+            return view('products.products');
+        } catch (Exception $ex) {
+            return view('error');
         }
     }
 }
