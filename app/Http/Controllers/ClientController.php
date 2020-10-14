@@ -2,64 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
+use App\Models\Client;
 use Illuminate\Http\Request;
+use App\Repositories\IRepository\IModelRepository;
+use Exception;
 
 class ClientController extends Controller
-{
+{   
+
+    private IModelRepository $IModelRepository;
+    private $Client;
+
+    public function __construct(IModelRepository $IModelRepository) 
+    {   
+        $this->IModelRepository = $IModelRepository;
+        $this->Client = new Client();
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function List(Request $request)
     {
-        //
+        try {
+            $data = [];
+            $data['Model'] = $this->Client;
+            $data['Query'] = [
+                'name',
+                'lastname',
+                'address',
+                'document',
+                'phone',
+                'email',
+                'created_at'
+            ];
+            $data['Row'] = 'name';
+            Json::Json($request, $data);
+        } catch (Exception $ex) {
+            return $this->SendError([$ex->getMessage()]);
+        }
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Method for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function Insert(Request $request)
     {
-        //
+        try {
+            if ($request->isMethod('GET')) {
+                return view('view');
+            }
+            $data = [];
+            $data['Model'] = $this->Client;
+            $response = $this->IModelRepository->Insert($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+        } catch (Exception $ex) {
+            return view('error');
+        }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Client $client)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Client $client)
-    {
-        //
-    }
-
+        
     /**
      * Update the specified resource in storage.
      *
@@ -67,9 +74,18 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function Update(Request $request, Client $client)
     {
-        //
+        try {
+            $data = [];
+            $data['Model'] = $this->Client;
+            $response = $this->IModelRepository->Update($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+        } catch (Exception $ex) {
+            return view('error');
+        }
     }
 
     /**
@@ -78,8 +94,38 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
+    public function Delete(Client $client)
     {
-        //
+        try {
+            $data = [];
+            $data['Model'] = $this->Client;
+            $response = $this->IModelRepository->Delete($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+
+        } catch (Exception $ex) {
+            return view('error');
+        }
+    }
+
+    /**
+     * Search the specified resource with the filter.
+     *
+     * @param  \App\Client  $client
+     * @return \Illuminate\Http\Response
+     */
+    public function Find()
+    {
+        try {
+            $data = [];
+            $data['Model'] = $this->Client;
+            $response = $this->IModelRepository->Delete($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+        } catch (Exception $ex) {
+            return view('error');
+        }
     }
 }

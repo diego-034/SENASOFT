@@ -40,8 +40,8 @@
                                 <th>Codigo</th>
                                 <th>Nombre</th>
                                 <th>Descripción</th>
-                                <th>Categoria</th>
-                                <th>Unidad de medida</th>
+                                <th>Stock</th>
+                                <th>Precio</th>
                                 <th></th>
                             </tr>
                         </thead>

@@ -34,18 +34,25 @@ class ProductController extends Controller
             }
             $data = [];
             $data['Model'] = $this->Product;
-            $response = $this->IModelRepository->List($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
-            }
-            return $this->sendResponse($response, 'success');
+            $data['Query'] = [
+                'id',
+                'name',
+                'stock',
+                'description',
+                'price',
+                'image',
+                'iva',
+                'created_at'
+            ];
+            $data['Row'] = 'name';
+            Json::Json($request, $data);
         } catch (Exception $ex) {
-            return view('error');
+            return $this->SendError([$ex->getMessage()]);
         }
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Method for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
@@ -80,7 +87,7 @@ class ProductController extends Controller
         try {
             $data = [];
             $data['Model'] = $this->Product;
-            $Response = $this->IModelRepository->Update($data);
+            $response = $this->IModelRepository->Update($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
@@ -101,7 +108,7 @@ class ProductController extends Controller
         try {
             $data = [];
             $data['Model'] = $this->Product;
-            $Response = $this->IModelRepository->Delete($data);
+            $response = $this->IModelRepository->Delete($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
@@ -122,7 +129,7 @@ class ProductController extends Controller
         try {
             $data = [];
             $data['Model'] = $this->Product;
-            $Response = $this->IModelRepository->Delete($data);
+            $response = $this->IModelRepository->Delete($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
