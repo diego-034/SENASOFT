@@ -46,9 +46,13 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function Insert()
+    public function Insert(Request $request)
     {
         try {
+            if($request->isMethod('GET')) {
+                return view('products.form-create');
+            }
+            
             $data = [];
             $data['Model'] = $this->Product;
             $response = $this->IModelRepository->Insert($data);

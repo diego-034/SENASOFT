@@ -98,7 +98,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="components-accordions.html">
+                            <a href="{{route('products-insert')}}">
                                 <i class="metismenu-icon">
                                 </i>Crear producto
                             </a>
