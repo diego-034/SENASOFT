@@ -15,6 +15,8 @@ class CreateSearchPreferencesTable extends Migration
     {
         Schema::create('search_preferences', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->foreignId('user_id')->constrained('users')->nullable(); 
             $table->timestamps();
         });
     }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserTypeSeeder extends Seeder
 {
@@ -11,10 +12,9 @@ class UserTypeSeeder extends Seeder
      */
     public function run()
     {
-        $user = new User();
-        $user->name = 'Usuario';
-        $user->email = 'usuer@senasoft.com';
-        $user->password = bcrypt('12345678');
-        $user->save();
+        $data = array(
+            ['name'=>'admin'],['name'=>'customer']
+        );
+        DB::table('types')->insert($data);
     }
 }
