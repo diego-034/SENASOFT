@@ -69,7 +69,7 @@
                         Facturas
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-                    <ul>
+                    <ul class="{{(request()->is('invoices/*')) ? 'mm-collapse mm-show' : ''}} {{(request()->is('invoices')) ? 'mm-collapse mm-show' : ''}}">
                         <li>
                             <a href="{{route('invoices-list')}}" class="{{(request()->is('invoices')) ? 'mm-active' : ''}}">
                                 <i class="metismenu-icon">
@@ -77,7 +77,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('invoices-insert')}}" class="{{(request()->is('invoices')) ? 'mm-active' : ''}}">
+                            <a href="{{route('invoices-insert')}}" class="{{(request()->is('invoices/form')) ? 'mm-active' : ''}}">
                                 <i class="metismenu-icon">
                                 </i>Crear factura
                             </a>

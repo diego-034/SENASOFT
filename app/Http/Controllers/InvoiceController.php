@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
 use Exception;
@@ -54,9 +55,12 @@ class InvoiceController extends Controller
 
     public function Insert(Request $request)
     {
+
+        $products = Product::all()->toArray();
+
         try {
             if($request->isMethod('GET')) {
-                return view('invoices.form-create');
+                return view('invoices.form-create',['products'=> $products]);
             }
             $data = [];
             $data['Model'] = $this->Invoice;

@@ -53,6 +53,15 @@ Route::prefix('products')->group(function () {
     Route::delete('/delete/{id?}', 'ProductController@delete')->name('products-delete');
 });
 
+Route::prefix('customers')->group(function () {
+    Route::match(['GET', 'POST'], '/', 'CustomerController@List')->name('customers-list');
+    Route::match(['GET', 'POST'], '/form', 'CustomerController@Insert')->name('customers-insert');
+    Route::match(['GET', 'POST'], '/form/{id?}', 'CustomerController@Update')->name('customers-update');
+    Route::match(['GET', 'POST'], '/find/{id?}', 'CustomerController@Find')->name('customers-find');
+    Route::delete('/delete/{id?}', 'CustomerController@delete')->name('customers-delete');
+});
+
+
 
 
 
