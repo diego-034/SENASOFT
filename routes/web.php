@@ -46,7 +46,10 @@ Route::prefix('clients')->group(function () {
 });
 
 Route::prefix('products')->group(function () {
-    Route::match(['GET', 'POST'], '/', 'ProductController@List')->name('products-list');
+    Route::get('/', function () {
+        return view('products.products');
+    })->name('products-list');
+    //Route::match(['GET', 'POST'], '/', 'ProductController@List')->name('products-list');
     Route::match(['GET', 'POST'], '/form', 'ProductController@Insert')->name('products-insert');
     Route::match(['GET', 'POST'], '/form/{id?}', 'ProductController@Update')->name('products-update');
     Route::match(['GET', 'POST'], '/find/{id?}', 'ProductController@Find')->name('products-find');
