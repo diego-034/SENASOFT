@@ -97,18 +97,19 @@ class BranchController extends Controller
      * @param  \App\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function Delete(Branch $branch)
+    public function Delete($id)
     {
         try {
             $data = [];
             $data['Model'] = $this->Branch;
+            $data['Entity']['id'] = $id;
             $response = $this->IModelRepository->Delete($data);
             if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+                return response()->json(false);
             }
-
+            return response()->json($response['OK']);
         } catch (Exception $ex) {
-            return view('error');
+            return response()->json(false);
         }
     }
 
