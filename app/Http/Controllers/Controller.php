@@ -11,8 +11,24 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function error()
+
+    public function SendResponse($result, $message)
     {
-        return view('error');
+        $response = [
+            "success" => true,
+            "data" => $result,
+            "message" => $message
+        ];
+        return response()->json($response, 200);
+    }
+    
+    public function SendError($error, $errorMessage = [], $code = 404)
+    {
+        $response = [
+            "success" => false,
+            "error" => $error,
+            "message" => $errorMessage
+        ];
+        return response()->json($response, $code);
     }
 }
