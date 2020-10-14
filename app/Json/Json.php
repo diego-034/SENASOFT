@@ -4,7 +4,7 @@ namespace App\Json;
 
 use Exception;
 
-class JsonController extends Controller
+class Json extends Controller
 {
     /**
      * Remove the specified resource from storage.
