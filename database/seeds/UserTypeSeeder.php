@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserTypeSeeder extends Seeder
 {
@@ -11,6 +12,9 @@ class UserTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $data = array(
+            ['name'=>'admin'],['name'=>'seller']
+        );
+        DB::table('types')->insert($data);
     }
 }
