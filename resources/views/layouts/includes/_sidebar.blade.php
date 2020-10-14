@@ -36,7 +36,7 @@
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Dashboard</li>
                 <li>
-                    <a href="index.html" class="mm-active">
+                    <a href="{{route('home')}}" class="mm-active">
                         <i class="metismenu-icon pe-7s-rocket"></i>
                         Dashboard
                     </a>
@@ -77,7 +77,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="components-accordions.html">
+                            <a href="{{route('invoices-insert')}}">
                                 <i class="metismenu-icon">
                                 </i>Crear factura
                             </a>
@@ -98,7 +98,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="components-accordions.html">
+                            <a href="{{route('products-insert')}}">
                                 <i class="metismenu-icon">
                                 </i>Crear producto
                             </a>

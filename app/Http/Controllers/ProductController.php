@@ -10,8 +10,8 @@ use Exception;
 class ProductController extends Controller
 {
 
-    private IModelRepository $IModelRepository;
-    private Product $Product;
+    private $IModelRepository;
+    private $Product;
 
     public function __construct(IModelRepository $IModelRepository)
     {
@@ -29,6 +29,9 @@ class ProductController extends Controller
     public function List(Request $request)
     {
         try {
+            if($request->isMethod('GET')) {
+                return view('products.products');
+            }
             $data = [];
             $data['Model'] = $this->Product;
             $data['Query'] = [
@@ -61,6 +64,9 @@ class ProductController extends Controller
     public function Insert(Request $request)
     {
         try {
+            if($request->isMethod('GET')) {
+                return view('products.form-create');
+            }
             $data = [];
             $data['Model'] = $this->Product;
             $response = $this->IModelRepository->Insert($data);
