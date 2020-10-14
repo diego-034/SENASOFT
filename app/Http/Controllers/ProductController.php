@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
 use Exception;
 use App\Json\Json;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -66,6 +67,14 @@ class ProductController extends Controller
             }
             $data = [];
             $data['Model'] = $this->Product;
+            $response = Validator::make($params->all(), [
+                'post_title' => 'required|string',
+                'post_body' => 'required|string'
+            ]);
+
+            if ($response->fails()) {
+                throw new Exception('Error');
+            }
             $response = $this->IModelRepository->Insert($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
@@ -120,13 +129,6 @@ class ProductController extends Controller
             return response()->json(false);
         }
     }
-    // public function delete($id) {
-    //     $Product = Product::findById($id);
-    //     if ($Product) {
-    //         return response()->json($Product->delete());
-    //     }
-    //     return response()->json(false);
-    // }
     /**
      * Search the specified resource with the filter.
      *
