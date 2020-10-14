@@ -36,7 +36,8 @@ class InvoiceController extends Controller
                 'total',
                 'total_discount',
                 'total_iva',
-                'state'
+                'state',
+                'created_at'
             ];
             $data['Row'] = 'id';
             $response = Json::Json($request, $data);
@@ -97,24 +98,26 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function Delete(Invoice $invoice)
+    public function Delete($id)
     {
         try {
             $data = [];
             $data['Model'] = $this->Invoice;
+            $data['Entity']['id'] = $id;
             $response = $this->IModelRepository->Delete($data);
             if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+                return response()->json(false);
             }
+            return response()->json($response['OK']);
         } catch (Exception $ex) {
-            return view('error');
+            return response()->json(false);
         }
     }
 
     /**
      * Search the specified resource with the filter.
      *
-     * @param  \App\Product  $product
+     * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
     public function Find()

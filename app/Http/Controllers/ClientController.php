@@ -100,18 +100,19 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function Delete(Client $client)
+    public function Delete($id)
     {
         try {
             $data = [];
             $data['Model'] = $this->Client;
+            $data['Entity']['id'] = $id;
             $response = $this->IModelRepository->Delete($data);
             if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+                return response()->json(false);
             }
-
+            return response()->json($response['OK']);
         } catch (Exception $ex) {
-            return view('error');
+            return response()->json(false);
         }
     }
 
