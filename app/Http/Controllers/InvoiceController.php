@@ -12,9 +12,9 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function List()
     {
-        //
+        return view('invoices.invoices');
     }
 
     /**
@@ -22,43 +22,11 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function Insert()
     {
-        //
+        return view('invoices.form-create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Invoice  $invoice
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Invoice $invoice)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Invoice  $invoice
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Invoice $invoice)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -67,9 +35,9 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Invoice $invoice)
+    public function Update(Request $request, Invoice $invoice)
     {
-        //
+        return view('invoices.form-update');
     }
 
     /**
@@ -78,7 +46,7 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
+    public function Delete(Invoice $invoice)
     {
         //
     }

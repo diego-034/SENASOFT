@@ -77,7 +77,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="components-accordions.html">
+                            <a href="{{route('invoices-insert')}}">
                                 <i class="metismenu-icon">
                                 </i>Crear factura
                             </a>
