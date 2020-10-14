@@ -8,6 +8,7 @@ use App\Repositories\IRepository\IModelRepository;
 use Exception;
 use App\Json\Json;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -61,26 +62,37 @@ class ProductController extends Controller
      */
     public function Insert(Request $request)
     {
+        DB::beginTransaction();
         try {
             if($request->isMethod('GET')) {
                 return view('products.form-create');
             }
             $data = [];
             $data['Model'] = $this->Product;
-            $response = Validator::make($params->all(), [
-                'post_title' => 'required|string',
-                'post_body' => 'required|string'
+            $response = Validator::make($request->all(), [
+                'producto' => 'required'
             ]);
 
             if ($response->fails()) {
                 throw new Exception('Error');
             }
-            $response = $this->IModelRepository->Insert($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+            $items = $request->get('producto');
+            foreach($items as $item){
+                $item['image'] = "as";
+                $item['stock'] = "20";
+                $item['price'] = $item['value'];
+                $item['iva'] = "19";
+                $item['branch_id'] = "1";
+                $data['Entity'] = $item; 
+                $response = $this->IModelRepository->Insert($data);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
             }
+            DB::commit();
             return view('products.products');
         } catch (Exception $ex) {
+            DB::rollback();
             return view('error');
         }
     }

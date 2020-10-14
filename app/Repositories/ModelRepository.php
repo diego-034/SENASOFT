@@ -55,7 +55,7 @@ class ModelRepository implements IModelRepository {
         $response = array();
         try {
             $this->SetModel($data['Model']);
-            $response['OK'] = $this->Model::create($data);
+            $response['OK'] = $this->Model::create($data['Entity']);
 
             if ($response['OK'] ==  null) {
                 $response['Error'] = new Exception("Error");
