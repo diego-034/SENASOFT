@@ -37,7 +37,8 @@ class NotificationController extends Controller
             $data['Query'] = [
                 'id',
                 'name',
-                'content'
+                'content',
+                'created_at'
             ];
             $data['Row'] = 'name';
             $response = Json::Json($request, $data);
@@ -96,17 +97,19 @@ class NotificationController extends Controller
      * @param  \App\Notification  $notification
      * @return \Illuminate\Http\Response
      */
-    public function Delete(Notification $notification)
+    public function Delete($id)
     {
         try {
             $data = [];
             $data['Model'] = $this->Notification;
+            $data['Entity']['id'] = $id;
             $response = $this->IModelRepository->Delete($data);
             if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+                return response()->json(false);
             }
+            return response()->json($response['OK']);
         } catch (Exception $ex) {
-            return view('error');
+            return response()->json(false);
         }
     }
 
