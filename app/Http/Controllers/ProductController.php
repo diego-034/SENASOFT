@@ -29,6 +29,9 @@ class ProductController extends Controller
     public function List()
     {
         try {
+            if($request->isMethod('GET')) {
+                return view('products.products');
+            }
             $data = [];
             $data['Model'] = $this->Product;
             $response = $this->IModelRepository->List($data);
