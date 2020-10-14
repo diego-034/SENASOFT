@@ -19,7 +19,7 @@ class CreateInvoicesTable extends Migration
             $table->decimal('total_discount',12,2);
             $table->decimal('total_iva',12,2);
             $table->bigInteger('state');
-            $table->foreignId('client_id')->constrained('clients')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('customer_id')->constrained('customers')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });

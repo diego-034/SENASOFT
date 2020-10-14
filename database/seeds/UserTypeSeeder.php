@@ -13,8 +13,8 @@ class UserTypeSeeder extends Seeder
     public function run()
     {
         $data = array(
-            ['name'=>'admin'],['name'=>'customer']
+            ['type'=>'admin'],['type'=>'customer']
         );
-        DB::table('types')->insert($data);
+        DB::table('user_types')->insert($data);
     }
 }
