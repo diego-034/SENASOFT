@@ -105,21 +105,28 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function Delete(Product $product)
+    public function Delete($id)
     {
         try {
             $data = [];
             $data['Model'] = $this->Product;
+            $data['Entity']['id'] = $id;
             $response = $this->IModelRepository->Delete($data);
             if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+                return response()->json(false);
             }
-            return view('products.products');
+            return response()->json($response['OK']);
         } catch (Exception $ex) {
-            return view('error');
+            return response()->json(false);
         }
     }
-
+    // public function delete($id) {
+    //     $Product = Product::findById($id);
+    //     if ($Product) {
+    //         return response()->json($Product->delete());
+    //     }
+    //     return response()->json(false);
+    // }
     /**
      * Search the specified resource with the filter.
      *
