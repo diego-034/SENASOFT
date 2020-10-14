@@ -2,38 +2,38 @@
 // https://github.com/DubFriend/jquery.repeater
 // (MIT) 09-10-2016
 // Brian Detering <BDeterin@gmail.com> (http://www.briandetering.net/)
-(function ($) {
+(function($) {
     'use strict';
 
-    var identity = function (x) {
+    var identity = function(x) {
         return x;
     };
 
-    var isArray = function (value) {
+    var isArray = function(value) {
         return $.isArray(value);
     };
 
-    var isObject = function (value) {
+    var isObject = function(value) {
         return !isArray(value) && (value instanceof Object);
     };
 
-    var isNumber = function (value) {
+    var isNumber = function(value) {
         return value instanceof Number;
     };
 
-    var isFunction = function (value) {
+    var isFunction = function(value) {
         return value instanceof Function;
     };
 
-    var indexOf = function (object, value) {
+    var indexOf = function(object, value) {
         return $.inArray(value, object);
     };
 
-    var inArray = function (array, value) {
+    var inArray = function(array, value) {
         return indexOf(array, value) !== -1;
     };
 
-    var foreach = function (collection, callback) {
+    var foreach = function(collection, callback) {
         for (var i in collection) {
             if (collection.hasOwnProperty(i)) {
                 callback(collection[i], i, collection);
@@ -42,66 +42,66 @@
     };
 
 
-    var last = function (array) {
+    var last = function(array) {
         return array[array.length - 1];
     };
 
-    var argumentsToArray = function (args) {
+    var argumentsToArray = function(args) {
         return Array.prototype.slice.call(args);
     };
 
-    var extend = function () {
+    var extend = function() {
         var extended = {};
-        foreach(argumentsToArray(arguments), function (o) {
-            foreach(o, function (val, key) {
+        foreach(argumentsToArray(arguments), function(o) {
+            foreach(o, function(val, key) {
                 extended[key] = val;
             });
         });
         return extended;
     };
 
-    var mapToArray = function (collection, callback) {
+    var mapToArray = function(collection, callback) {
         var mapped = [];
-        foreach(collection, function (value, key, coll) {
+        foreach(collection, function(value, key, coll) {
             mapped.push(callback(value, key, coll));
         });
         return mapped;
     };
 
-    var mapToObject = function (collection, callback, keyCallback) {
+    var mapToObject = function(collection, callback, keyCallback) {
         var mapped = {};
-        foreach(collection, function (value, key, coll) {
+        foreach(collection, function(value, key, coll) {
             key = keyCallback ? keyCallback(key, value) : key;
             mapped[key] = callback(value, key, coll);
         });
         return mapped;
     };
 
-    var map = function (collection, callback, keyCallback) {
+    var map = function(collection, callback, keyCallback) {
         return isArray(collection) ?
             mapToArray(collection, callback) :
             mapToObject(collection, callback, keyCallback);
     };
 
-    var pluck = function (arrayOfObjects, key) {
-        return map(arrayOfObjects, function (val) {
+    var pluck = function(arrayOfObjects, key) {
+        return map(arrayOfObjects, function(val) {
             return val[key];
         });
     };
 
-    var filter = function (collection, callback) {
+    var filter = function(collection, callback) {
         var filtered;
 
         if (isArray(collection)) {
             filtered = [];
-            foreach(collection, function (val, key, coll) {
+            foreach(collection, function(val, key, coll) {
                 if (callback(val, key, coll)) {
                     filtered.push(val);
                 }
             });
         } else {
             filtered = {};
-            foreach(collection, function (val, key, coll) {
+            foreach(collection, function(val, key, coll) {
                 if (callback(val, key, coll)) {
                     filtered[key] = val;
                 }
@@ -111,21 +111,21 @@
         return filtered;
     };
 
-    var call = function (collection, functionName, args) {
-        return map(collection, function (object, name) {
+    var call = function(collection, functionName, args) {
+        return map(collection, function(object, name) {
             return object[functionName].apply(object, args || []);
         });
     };
 
     //execute callback immediately and at most one time on the minimumInterval,
     //ignore block attempts
-    var throttle = function (minimumInterval, callback) {
+    var throttle = function(minimumInterval, callback) {
         var timeout = null;
-        return function () {
+        return function() {
             var that = this,
                 args = arguments;
             if (timeout === null) {
-                timeout = setTimeout(function () {
+                timeout = setTimeout(function() {
                     timeout = null;
                 }, minimumInterval);
                 callback.apply(that, args);
@@ -134,23 +134,23 @@
     };
 
 
-    var mixinPubSub = function (object) {
+    var mixinPubSub = function(object) {
         object = object || {};
         var topics = {};
 
-        object.publish = function (topic, data) {
-            foreach(topics[topic], function (callback) {
+        object.publish = function(topic, data) {
+            foreach(topics[topic], function(callback) {
                 callback(data);
             });
         };
 
-        object.subscribe = function (topic, callback) {
+        object.subscribe = function(topic, callback) {
             topics[topic] = topics[topic] || [];
             topics[topic].push(callback);
         };
 
-        object.unsubscribe = function (callback) {
-            foreach(topics, function (subscribers) {
+        object.unsubscribe = function(callback) {
+            foreach(topics, function(subscribers) {
                 var index = indexOf(subscribers, callback);
                 if (index !== -1) {
                     subscribers.splice(index, 1);
@@ -165,41 +165,41 @@
     // https://github.com/DubFriend/jquery.input
     // (MIT) 09-04-2014
     // Brian Detering <BDeterin@gmail.com> (http://www.briandetering.net/)
-    (function ($) {
+    (function($) {
         'use strict';
 
-        var createBaseInput = function (fig, my) {
+        var createBaseInput = function(fig, my) {
             var self = mixinPubSub(),
                 $self = fig.$;
 
-            self.getType = function () {
+            self.getType = function() {
                 throw 'implement me (return type. "text", "radio", etc.)';
             };
 
-            self.$ = function (selector) {
+            self.$ = function(selector) {
                 return selector ? $self.find(selector) : $self;
             };
 
-            self.disable = function () {
+            self.disable = function() {
                 self.$().prop('disabled', true);
                 self.publish('isEnabled', false);
             };
 
-            self.enable = function () {
+            self.enable = function() {
                 self.$().prop('disabled', false);
                 self.publish('isEnabled', true);
             };
 
-            my.equalTo = function (a, b) {
+            my.equalTo = function(a, b) {
                 return a === b;
             };
 
-            my.publishChange = (function () {
+            my.publishChange = (function() {
                 var oldValue;
-                return function (e, domElement) {
+                return function(e, domElement) {
                     var newValue = self.get();
                     if (!my.equalTo(newValue, oldValue)) {
-                        self.publish('change', {e: e, domElement: domElement});
+                        self.publish('change', { e: e, domElement: domElement });
                     }
                     oldValue = newValue;
                 };
@@ -209,23 +209,23 @@
         };
 
 
-        var createInput = function (fig, my) {
+        var createInput = function(fig, my) {
             var self = createBaseInput(fig, my);
 
-            self.get = function () {
+            self.get = function() {
                 return self.$().val();
             };
 
-            self.set = function (newValue) {
+            self.set = function(newValue) {
                 self.$().val(newValue);
             };
 
-            self.clear = function () {
+            self.clear = function() {
                 self.set('');
             };
 
-            my.buildSetter = function (callback) {
-                return function (newValue) {
+            my.buildSetter = function(callback) {
+                return function(newValue) {
                     callback.call(self, newValue);
                 };
             };
@@ -233,7 +233,7 @@
             return self;
         };
 
-        var inputEqualToArray = function (a, b) {
+        var inputEqualToArray = function(a, b) {
             a = isArray(a) ? a : [a];
             b = isArray(b) ? b : [b];
 
@@ -241,7 +241,7 @@
             if (a.length !== b.length) {
                 isEqual = false;
             } else {
-                foreach(a, function (value) {
+                foreach(a, function(value) {
                     if (!inArray(b, value)) {
                         isEqual = false;
                     }
@@ -251,45 +251,45 @@
             return isEqual;
         };
 
-        var createInputButton = function (fig) {
+        var createInputButton = function(fig) {
             var my = {},
                 self = createInput(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'button';
             };
 
-            self.$().on('change', function (e) {
+            self.$().on('change', function(e) {
                 my.publishChange(e, this);
             });
 
             return self;
         };
 
-        var createInputCheckbox = function (fig) {
+        var createInputCheckbox = function(fig) {
             var my = {},
                 self = createInput(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'checkbox';
             };
 
-            self.get = function () {
+            self.get = function() {
                 var values = [];
-                self.$().filter(':checked').each(function () {
+                self.$().filter(':checked').each(function() {
                     values.push($(this).val());
                 });
                 return values;
             };
 
-            self.set = function (newValues) {
+            self.set = function(newValues) {
                 newValues = isArray(newValues) ? newValues : [newValues];
 
-                self.$().each(function () {
+                self.$().each(function() {
                     $(this).prop('checked', false);
                 });
 
-                foreach(newValues, function (value) {
+                foreach(newValues, function(value) {
                     self.$().filter('[value="' + value + '"]')
                         .prop('checked', true);
                 });
@@ -297,45 +297,45 @@
 
             my.equalTo = inputEqualToArray;
 
-            self.$().change(function (e) {
+            self.$().change(function(e) {
                 my.publishChange(e, this);
             });
 
             return self;
         };
 
-        var createInputEmail = function (fig) {
+        var createInputEmail = function(fig) {
             var my = {},
                 self = createInputText(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'email';
             };
 
             return self;
         };
 
-        var createInputFile = function (fig) {
+        var createInputFile = function(fig) {
             var my = {},
                 self = createBaseInput(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'file';
             };
 
-            self.get = function () {
+            self.get = function() {
                 return last(self.$().val().split('\\'));
             };
 
-            self.clear = function () {
+            self.clear = function() {
                 // http://stackoverflow.com/questions/1043957/clearing-input-type-file-using-jquery
-                this.$().each(function () {
+                this.$().each(function() {
                     $(this).wrap('<form>').closest('form').get(0).reset();
                     $(this).unwrap();
                 });
             };
 
-            self.$().change(function (e) {
+            self.$().change(function(e) {
                 my.publishChange(e, this);
                 // self.publish('change', self);
             });
@@ -343,29 +343,29 @@
             return self;
         };
 
-        var createInputHidden = function (fig) {
+        var createInputHidden = function(fig) {
             var my = {},
                 self = createInput(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'hidden';
             };
 
-            self.$().change(function (e) {
+            self.$().change(function(e) {
                 my.publishChange(e, this);
             });
 
             return self;
         };
-        var createInputMultipleFile = function (fig) {
+        var createInputMultipleFile = function(fig) {
             var my = {},
                 self = createBaseInput(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'file[multiple]';
             };
 
-            self.get = function () {
+            self.get = function() {
                 // http://stackoverflow.com/questions/14035530/how-to-get-value-of-html-5-multiple-file-upload-variable-using-jquery
                 var fileListObject = self.$().get(0).files || [],
                     names = [],
@@ -378,34 +378,34 @@
                 return names;
             };
 
-            self.clear = function () {
+            self.clear = function() {
                 // http://stackoverflow.com/questions/1043957/clearing-input-type-file-using-jquery
-                this.$().each(function () {
+                this.$().each(function() {
                     $(this).wrap('<form>').closest('form').get(0).reset();
                     $(this).unwrap();
                 });
             };
 
-            self.$().change(function (e) {
+            self.$().change(function(e) {
                 my.publishChange(e, this);
             });
 
             return self;
         };
 
-        var createInputMultipleSelect = function (fig) {
+        var createInputMultipleSelect = function(fig) {
             var my = {},
                 self = createInput(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'select[multiple]';
             };
 
-            self.get = function () {
+            self.get = function() {
                 return self.$().val() || [];
             };
 
-            self.set = function (newValues) {
+            self.set = function(newValues) {
                 self.$().val(
                     newValues === '' ? [] : isArray(newValues) ? newValues : [newValues]
                 );
@@ -413,39 +413,39 @@
 
             my.equalTo = inputEqualToArray;
 
-            self.$().change(function (e) {
+            self.$().change(function(e) {
                 my.publishChange(e, this);
             });
 
             return self;
         };
 
-        var createInputPassword = function (fig) {
+        var createInputPassword = function(fig) {
             var my = {},
                 self = createInputText(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'password';
             };
 
             return self;
         };
 
-        var createInputRadio = function (fig) {
+        var createInputRadio = function(fig) {
             var my = {},
                 self = createInput(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'radio';
             };
 
-            self.get = function () {
+            self.get = function() {
                 return self.$().filter(':checked').val() || null;
             };
 
-            self.set = function (newValue) {
+            self.set = function(newValue) {
                 if (!newValue) {
-                    self.$().each(function () {
+                    self.$().each(function() {
                         $(this).prop('checked', false);
                     });
                 } else {
@@ -453,85 +453,85 @@
                 }
             };
 
-            self.$().change(function (e) {
+            self.$().change(function(e) {
                 my.publishChange(e, this);
             });
 
             return self;
         };
 
-        var createInputRange = function (fig) {
+        var createInputRange = function(fig) {
             var my = {},
                 self = createInput(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'range';
             };
 
-            self.$().change(function (e) {
+            self.$().change(function(e) {
                 my.publishChange(e, this);
             });
 
             return self;
         };
 
-        var createInputSelect = function (fig) {
+        var createInputSelect = function(fig) {
             var my = {},
                 self = createInput(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'select';
             };
 
-            self.$().change(function (e) {
+            self.$().change(function(e) {
                 my.publishChange(e, this);
             });
 
             return self;
         };
 
-        var createInputText = function (fig) {
+        var createInputText = function(fig) {
             var my = {},
                 self = createInput(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'text';
             };
 
-            self.$().on('change keyup keydown', function (e) {
+            self.$().on('change keyup keydown', function(e) {
                 my.publishChange(e, this);
             });
 
             return self;
         };
 
-        var createInputTextarea = function (fig) {
+        var createInputTextarea = function(fig) {
             var my = {},
                 self = createInput(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'textarea';
             };
 
-            self.$().on('change keyup keydown', function (e) {
+            self.$().on('change keyup keydown', function(e) {
                 my.publishChange(e, this);
             });
 
             return self;
         };
 
-        var createInputURL = function (fig) {
+        var createInputURL = function(fig) {
             var my = {},
                 self = createInputText(fig, my);
 
-            self.getType = function () {
+            self.getType = function() {
                 return 'url';
             };
 
             return self;
         };
 
-        var buildFormInputs = function (fig) {
+        var buildFormInputs = function(fig) {
             var inputs = {},
                 $self = fig.$;
 
@@ -552,10 +552,10 @@
                 hidden: createInputHidden
             };
 
-            var addInputsBasic = function (type, selector) {
+            var addInputsBasic = function(type, selector) {
                 var $input = isObject(selector) ? selector : $self.find(selector);
 
-                $input.each(function () {
+                $input.each(function() {
                     var name = $(this).attr('name');
                     inputs[name] = constructor[type]({
                         $: $(this)
@@ -563,7 +563,7 @@
                 });
             };
 
-            var addInputsGroup = function (type, selector) {
+            var addInputsGroup = function(type, selector) {
                 var names = [],
                     $input = isObject(selector) ? selector : $self.find(selector);
 
@@ -573,13 +573,13 @@
                     });
                 } else {
                     // group by name attribute
-                    $input.each(function () {
+                    $input.each(function() {
                         if (indexOf(names, $(this).attr('name')) === -1) {
                             names.push($(this).attr('name'));
                         }
                     });
 
-                    foreach(names, function (name) {
+                    foreach(names, function(name) {
                         inputs[name] = constructor[type]({
                             $: $self.find('input[name="' + name + '"]')
                         });
@@ -648,10 +648,10 @@
             return inputs;
         };
 
-        $.fn.inputVal = function (newValue) {
+        $.fn.inputVal = function(newValue) {
             var $self = $(this);
 
-            var inputs = buildFormInputs({$: $self});
+            var inputs = buildFormInputs({ $: $self });
 
             if ($self.is('input, textarea, select')) {
                 if (typeof newValue === 'undefined') {
@@ -664,7 +664,7 @@
                 if (typeof newValue === 'undefined') {
                     return call(inputs, 'get');
                 } else {
-                    foreach(newValue, function (value, inputName) {
+                    foreach(newValue, function(value, inputName) {
                         inputs[inputName].set(value);
                     });
                     return $self;
@@ -672,48 +672,48 @@
             }
         };
 
-        $.fn.inputOnChange = function (callback) {
+        $.fn.inputOnChange = function(callback) {
             var $self = $(this);
-            var inputs = buildFormInputs({$: $self});
-            foreach(inputs, function (input) {
-                input.subscribe('change', function (data) {
+            var inputs = buildFormInputs({ $: $self });
+            foreach(inputs, function(input) {
+                input.subscribe('change', function(data) {
                     callback.call(data.domElement, data.e);
                 });
             });
             return $self;
         };
 
-        $.fn.inputDisable = function () {
+        $.fn.inputDisable = function() {
             var $self = $(this);
-            call(buildFormInputs({$: $self}), 'disable');
+            call(buildFormInputs({ $: $self }), 'disable');
             return $self;
         };
 
-        $.fn.inputEnable = function () {
+        $.fn.inputEnable = function() {
             var $self = $(this);
-            call(buildFormInputs({$: $self}), 'enable');
+            call(buildFormInputs({ $: $self }), 'enable');
             return $self;
         };
 
-        $.fn.inputClear = function () {
+        $.fn.inputClear = function() {
             var $self = $(this);
-            call(buildFormInputs({$: $self}), 'clear');
+            call(buildFormInputs({ $: $self }), 'clear');
             return $self;
         };
 
     }(jQuery));
 
-    $.fn.repeaterVal = function () {
-        var parse = function (raw) {
+    $.fn.repeaterVal = function() {
+        var parse = function(raw) {
             var parsed = [];
 
-            foreach(raw, function (val, key) {
+            foreach(raw, function(val, key) {
                 var parsedKey = [];
                 if (key !== "undefined") {
                     parsedKey.push(key.match(/^[^\[]*/)[0]);
                     parsedKey = parsedKey.concat(map(
                         key.match(/\[[^\]]*\]/g),
-                        function (bracketed) {
+                        function(bracketed) {
                             return bracketed.replace(/[\[\]]/g, '');
                         }
                     ));
@@ -728,7 +728,7 @@
             return parsed;
         };
 
-        var build = function (parsed) {
+        var build = function(parsed) {
             if (
                 parsed.length === 1 &&
                 (parsed[0].key.length === 0 || parsed[0].key.length === 1 && !parsed[0].key[0])
@@ -736,14 +736,14 @@
                 return parsed[0].val;
             }
 
-            foreach(parsed, function (p) {
+            foreach(parsed, function(p) {
                 p.head = p.key.shift();
             });
 
-            var grouped = (function () {
+            var grouped = (function() {
                 var grouped = {};
 
-                foreach(parsed, function (p) {
+                foreach(parsed, function(p) {
                     if (!grouped[p.head]) {
                         grouped[p.head] = [];
                     }
@@ -757,12 +757,12 @@
 
             if (/^[0-9]+$/.test(parsed[0].head)) {
                 built = [];
-                foreach(grouped, function (group) {
+                foreach(grouped, function(group) {
                     built.push(build(group));
                 });
             } else {
                 built = {};
-                foreach(grouped, function (group, key) {
+                foreach(grouped, function(group, key) {
                     built[key] = build(group);
                 });
             }
@@ -773,27 +773,27 @@
         return build(parse($(this).inputVal()));
     };
 
-    $.fn.repeater = function (fig) {
+    $.fn.repeater = function(fig) {
         fig = fig || {};
 
         var setList;
 
-        $(this).each(function () {
+        $(this).each(function() {
 
             var $self = $(this);
 
-            var show = fig.show || function () {
+            var show = fig.show || function() {
                 $(this).show();
             };
 
-            var hide = fig.hide || function (removeElement) {
+            var hide = fig.hide || function(removeElement) {
                 removeElement();
             };
 
             var $list = $self.find('[data-repeater-list]').first();
 
-            var $filterNested = function ($items, repeaters) {
-                return $items.filter(function () {
+            var $filterNested = function($items, repeaters) {
+                return $items.filter(function() {
                     return repeaters ?
                         $(this).closest(
                             pluck(repeaters, 'selector').join(',')
@@ -801,7 +801,7 @@
                 });
             };
 
-            var $items = function () {
+            var $items = function() {
                 return $filterNested($list.find('[data-repeater-item]'), fig.repeaters);
             };
 
@@ -810,7 +810,7 @@
 
             var $firstDeleteButton = $filterNested(
                 $filterNested($(this).find('[data-repeater-item]'), fig.repeaters)
-                    .first().find('[data-repeater-delete]'),
+                .first().find('[data-repeater-delete]'),
                 fig.repeaters
             );
 
@@ -818,40 +818,40 @@
                 $firstDeleteButton.remove();
             }
 
-            var getGroupName = function () {
+            var getGroupName = function() {
                 var groupName = $list.data('repeater-list');
                 return fig.$parent ?
                     fig.$parent.data('item-name') + '[' + groupName + ']' :
                     groupName;
             };
 
-            var initNested = function ($listItems) {
+            var initNested = function($listItems) {
                 if (fig.repeaters) {
-                    $listItems.each(function () {
+                    $listItems.each(function() {
                         var $item = $(this);
-                        foreach(fig.repeaters, function (nestedFig) {
+                        foreach(fig.repeaters, function(nestedFig) {
                             $item.find(nestedFig.selector).repeater(extend(
-                                nestedFig, {$parent: $item}
+                                nestedFig, { $parent: $item }
                             ));
                         });
                     });
                 }
             };
 
-            var $foreachRepeaterInItem = function (repeaters, $item, cb) {
+            var $foreachRepeaterInItem = function(repeaters, $item, cb) {
                 if (repeaters) {
-                    foreach(repeaters, function (nestedFig) {
+                    foreach(repeaters, function(nestedFig) {
                         cb.call($item.find(nestedFig.selector)[0], nestedFig);
                     });
                 }
             };
 
-            var setIndexes = function ($items, groupName, repeaters) {
-                $items.each(function (index) {
+            var setIndexes = function($items, groupName, repeaters) {
+                $items.each(function(index) {
                     var $item = $(this);
                     $item.data('item-name', groupName + '[' + index + ']');
                     $filterNested($item.find('[name]'), repeaters)
-                        .each(function () {
+                        .each(function() {
                             var $input = $(this);
                             // match non empty brackets (ex: "[foo]")
                             var matches = $input.attr('name').match(/\[[^\]]+\]/g);
@@ -867,7 +867,7 @@
 
                             $input.attr('name', newName);
 
-                            $foreachRepeaterInItem(repeaters, $item, function (nestedFig) {
+                            $foreachRepeaterInItem(repeaters, $item, function(nestedFig) {
                                 var $repeater = $(this);
                                 setIndexes(
                                     $filterNested($repeater.find('[data-repeater-item]'), nestedFig.repeaters || []),
@@ -891,44 +891,44 @@
             }
 
             if (fig.ready) {
-                fig.ready(function () {
+                fig.ready(function() {
                     setIndexes($items(), getGroupName(), fig.repeaters);
                 });
             }
 
-            var appendItem = (function () {
-                var setItemsValues = function ($item, data, repeaters) {
+            var appendItem = (function() {
+                var setItemsValues = function($item, data, repeaters) {
                     if (data || fig.defaultValues) {
                         var inputNames = {};
-                        $filterNested($item.find('[name]'), repeaters).each(function () {
+                        $filterNested($item.find('[name]'), repeaters).each(function() {
                             var key = $(this).attr('name').match(/\[([^\]]*)(\]|\]\[\])$/)[1];
                             inputNames[key] = $(this).attr('name');
                         });
 
                         $item.inputVal(map(
-                            filter(data || fig.defaultValues, function (val, name) {
+                            filter(data || fig.defaultValues, function(val, name) {
                                 return inputNames[name];
                             }),
                             identity,
-                            function (name) {
+                            function(name) {
                                 return inputNames[name];
                             }
                         ));
                     }
 
 
-                    $foreachRepeaterInItem(repeaters, $item, function (nestedFig) {
+                    $foreachRepeaterInItem(repeaters, $item, function(nestedFig) {
                         var $repeater = $(this);
                         $filterNested(
-                            $repeater.find('[data-repeater-item]'),
-                            nestedFig.repeaters
-                        )
-                            .each(function () {
+                                $repeater.find('[data-repeater-item]'),
+                                nestedFig.repeaters
+                            )
+                            .each(function() {
                                 var fieldName = $repeater.find('[data-repeater-list]').data('repeater-list');
                                 if (data && data[fieldName]) {
                                     var $template = $(this).clone();
                                     $repeater.find('[data-repeater-item]').remove();
-                                    foreach(data[fieldName], function (data) {
+                                    foreach(data[fieldName], function(data) {
                                         var $item = $template.clone();
                                         setItemsValues(
                                             $item,
@@ -949,17 +949,17 @@
 
                 };
 
-                return function ($item, data) {
+                return function($item, data) {
                     $list.append($item);
                     setIndexes($items(), getGroupName(), fig.repeaters);
-                    $item.find('[name]').each(function () {
+                    $item.find('[name]').each(function() {
                         $(this).inputClear();
                     });
                     setItemsValues($item, data || fig.defaultValues, fig.repeaters);
                 };
             }());
 
-            var addItem = function (data) {
+            var addItem = function(data) {
                 var $item = $itemTemplate.clone();
                 appendItem($item, data);
                 if (fig.repeaters) {
@@ -968,29 +968,29 @@
                 show.call($item.get(0));
             };
 
-            setList = function (rows) {
+            setList = function(rows) {
                 $items().remove();
                 foreach(rows, addItem);
             };
 
-            $filterNested($self.find('[data-repeater-create]'), fig.repeaters).click(function () {
-                let self = this;
-                let element_loading = document.querySelector('.loading');
-                let inputID = self.getAttribute('input-quantity');
-                let element = document.getElementById(inputID);
-                let limite = parseInt(element.value) || 1;
-                const length = $('div[data-repeater-item]').length;
+            $filterNested($self.find('[data-repeater-create]'), fig.repeaters).click(function() {
+                var self = this;
+                var element_loading = document.querySelector('.loading');
+                var inputID = self.getAttribute('input-quantity');
+                var element = document.getElementById(inputID);
+                var limite = parseInt(element.value) || 1;
 
-                const showLoading = function () {
+                var showLoading = function() {
                     element_loading.classList.remove('d-none');
                 }
-                const hideLoading = function () {
+                var hideLoading = function() {
                     element_loading.classList.add('d-none');
                 }
-                let C = 0;
-                const AgregarFilas = function () {
+                var C = 0;
+                var AgregarFilas = function() {
                     if (C < limite) {
                         element_loading.innerHTML = 'Cargando... ' + Math.round((C * 100) / limite) + '%';
+                        console.log('Agregando...')
                         addItem();
                         C++;
                         setTimeout(AgregarFilas, 1);
@@ -1006,62 +1006,58 @@
 
             });
 
-            $filterNested($self.find('[data-repeater-create-product]'), fig.repeaters).change(function () {
+            $filterNested($self.find('[data-repeater-create-images]'), fig.repeaters).change(function() {
 
-                let inputSelProd = $('#products');
-                if (inputSelProd.val()) {
-
-                    const option = inputSelProd.find('option:selected');
-                    const id = option.attr('value');
-                    const quantity = option.attr('quantity');
-                    const name = option.attr('namepro');
-                    const unid = option.attr('unid');
-
-                    window['OPTIONS_REMOVE'] = window['OPTIONS_REMOVE'] || {};
-                    window['OPTIONS_REMOVE'][option.attr('value')] = Object.assign({}, option);
-
-                    option.remove();
-                    inputSelProd.val('').trigger('change');
-
-                    addItem();
-
-                    const length = $('div[data-repeater-item]').length - 1;
-                    $(`[name="productos[${length}][order_product_id]"]`).val(id);
-                    $(`[name="productos[${length}][name]"]`).val(name);
-                    const inptuQuantity = $(`[name="productos[${length}][quantity]"]`);
-                    inptuQuantity.val(quantity);
-                    inptuQuantity.attr('max', quantity);
-                    inptuQuantity.attr('min', 0);
-                    $(`[name="productos[${length}][unid]"]`).html(unid);
-
+                var element_loading = document.querySelector('.loading');
+                var fileMultiple = document.getElementById('file-multiple');
+                var limite = fileMultiple.files.length;
+                var showLoading = function() {
+                    element_loading.classList.remove('d-none');
+                }
+                var hideLoading = function() {
+                    element_loading.classList.add('d-none');
                 }
 
-            });
+                var C = 0
 
-            $list.on('click', '[data-repeater-delete-product]', function () {
-                var self = $(this).closest('[data-repeater-item]').get(0);
-                hide.call(self, function () {
-                    const id = $(self).find('.input-id').val();
-                    if (id) {
-                        const option = window['OPTIONS_REMOVE'][id];
-                        delete window['OPTIONS_REMOVE'][id];
-                        $('#products').append(option);
-                        $('#products').val('').trigger('change');
+                var AgregarProductos = function() {
+                    if (C < limite) {
+                        element_loading.innerHTML = 'Cargando... ' + Math.round((C * 100) / limite) + '%';
+                        console.log('Agregando...')
+                        var localFile = fileMultiple.files[C];
+                        var cantidad = document.querySelectorAll('[data-repeater-list="producto"] [data-repeater-item]').length;
+                        addItem();
+
+                        var inputFileRow = document.querySelector('[name="producto[' + cantidad + '][image]"]')
+
+                        var dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(localFile)
+                        inputFileRow.files = dataTransfer.files;
+
+                        var event = document.createEvent('Event');
+                        event.initEvent('change', true, true);
+                        inputFileRow.dispatchEvent(event);
+                        setTimeout(AgregarProductos, 1);
+                        C++
+                    } else {
+                        console.log('Termino!');
+                        hideLoading();
                     }
+                };
 
-                    $(self).remove();
-                    setIndexes($items(), getGroupName(), fig.repeaters);
-                });
+                showLoading()
+                setTimeout(AgregarProductos, 1);
+
             });
 
-            $list.on('click', '[data-repeater-delete]', function () {
+
+            $list.on('click', '[data-repeater-delete]', function() {
                 var self = $(this).closest('[data-repeater-item]').get(0);
-                hide.call(self, function () {
+                hide.call(self, function() {
                     $(self).remove();
                     setIndexes($items(), getGroupName(), fig.repeaters);
                 });
             });
-
         });
 
         this.setList = setList;
