@@ -22,9 +22,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function Create()
+    public function Insert()
     {
-        return view('products/form-create');
+        return view('users/form-create');
     }
 
     /**
@@ -35,7 +35,7 @@ class UserController extends Controller
      */
     public function Update(UserType $userType)
     {
-        return view('products/form-update');
+        return view('users/form-update');
     }
 
     /**
