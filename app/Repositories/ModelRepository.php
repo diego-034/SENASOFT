@@ -111,8 +111,10 @@ class ModelRepository implements IModelRepository {
 
             if ($response['OK'] == null) {
                 $response['Error'] = new Exception("Error");
+                return $response;
             }
-            $response['OK'] = $this->Model::delete($data);
+
+            $response['OK'] = $this->Model::destroy($data['Entity']['id']);
             if ($response['OK'] == null) {
                 $response['Error'] = new Exception("Error");
             }
