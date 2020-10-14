@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" sizes="16x16" href="">
-    <title>Savia Corp</title>
+    <title>SenaSoft</title>
 
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
 

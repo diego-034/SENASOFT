@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
+use App\User;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function List()
     {
-        return view('products/products');
+        return view('users/users');
     }
 
     /**
@@ -27,15 +27,13 @@ class ProductController extends Controller
         return view('products/form-create');
     }
 
-
     /**
-     * Update the specified resource in storage.
+     * Show the form for editing the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
+     * @param  \App\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-    public function Update(Request $request, Product $product)
+    public function Update(UserType $userType)
     {
         return view('products/form-update');
     }
@@ -43,10 +41,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
+     * @param  \App\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-    public function delete(Product $product)
+    public function Delete(UserType $userType)
     {
         
     }

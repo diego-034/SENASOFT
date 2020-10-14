@@ -11,6 +11,10 @@ class UserTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $user = new User();
+        $user->name = 'Usuario';
+        $user->email = 'usuer@senasoft.com';
+        $user->password = bcrypt('12345678');
+        $user->save();
     }
 }

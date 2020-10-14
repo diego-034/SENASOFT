@@ -44,21 +44,42 @@
                 <li class="app-sidebar__heading">Modulos</li>
                 <li>
                     <a href="#">
-                        <i class="metismenu-icon pe-7s-car"></i>
-                        Prueba menu
+                        <i class="metismenu-icon pe-7s-note2"></i>
+                        Facturas
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul>
                         <li>
                             <a href="components-tabs.html">
                                 <i class="metismenu-icon">
-                                </i>Prueba 1
+                                </i>Listar facturas
                             </a>
                         </li>
                         <li>
                             <a href="components-accordions.html">
                                 <i class="metismenu-icon">
-                                </i>Prueba 2
+                                </i>Crear factura
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-box1"></i>
+                        Productos
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="{{route('products-list')}}">
+                                <i class="metismenu-icon">
+                                </i>Listar productos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-accordions.html">
+                                <i class="metismenu-icon">
+                                </i>Crear producto
                             </a>
                         </li>
                     </ul>
