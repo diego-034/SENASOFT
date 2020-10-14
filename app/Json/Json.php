@@ -12,7 +12,7 @@ class JsonController extends Controller
      * @param Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function Json($request, $data)
+    public static function Json($request, $data)
     {
         $search = $request->json('search');
         $start = $request->json('start');
