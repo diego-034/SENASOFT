@@ -11,7 +11,8 @@
     @includeJS(['url'=>'users/assets/_users.js', 'params' => [
         '[URL_DELETE]' => route('users-delete'),
         '[PATH_AJAX]' => route('users-list'),
-        '[URL_FORM]' => route('users-update')
+        '[URL_FORM]' => route('users-update'),
+        '[URL_ES]' => asset('i18n/datatables-spanish.json')
     ]])
 @endpush
 

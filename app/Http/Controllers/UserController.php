@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\UserType;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -24,7 +25,10 @@ class UserController extends Controller
      */
     public function Insert()
     {
-        return view('users/form-create');
+
+        $Roles = UserType::all()->toArray();
+
+        return view('users/form-create',['Roles' => $Roles]);
     }
 
     /**
