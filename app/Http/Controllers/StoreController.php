@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Store;
+use App\Models\Store;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
+    private IModelRepository $IModelRepository;
+    private Store $Store;
+
+    public function __construct(IModelRepository $IModelRepository)
+    {
+        $this->IModelRepository = $IModelRepository;
+        $this->Store = new Store();
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      * @param  \App\UserType  $userType
