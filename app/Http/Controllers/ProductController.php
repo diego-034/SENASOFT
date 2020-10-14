@@ -45,12 +45,7 @@ class ProductController extends Controller
                 'created_at'
             ];
             $data['Row'] = 'name';
-            $response = Json::Json($request, $data);
-            //$response = $this->IModelRepository->List($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
-            }
-            return $this->SendResponse($response, 'success');
+            Json::Json($request, $data);
         } catch (Exception $ex) {
             return $this->SendError([$ex->getMessage()]);
         }
