@@ -2,62 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Notification;
+use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Repositories\IRepository\IModelRepository;
+use Exception;
+use App\Json\Json;
 
 class NotificationController extends Controller
 {
+    private $IModelRepository;
+    private $Notification;
+
+    public function __construct(IModelRepository $IModelRepository)
+    {
+        $this->IModelRepository = $IModelRepository;
+        $this->Notification = new Notification();
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    public function List(Request $request)
     {
-        //
+        try {
+            if($request->isMethod('GET')) {
+                return view('view');
+            }
+            $data = [];
+            $data['Model'] = $this->Notification;
+            $data['Query'] = [
+                'id',
+                'name',
+                'content'
+            ];
+            $data['Row'] = 'name';
+            $response = Json::Json($request, $data);
+            return response()->json($response);
+        } catch (Exception $ex) {
+            return $this->SendError([$ex->getMessage()]);
+        }
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Method for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function Insert(Request $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Notification  $notification
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Notification $notification)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Notification  $notification
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Notification $notification)
-    {
-        //
+        try {
+            if($request->isMethod('GET')) {
+                return view('view');
+            }
+            $data = [];
+            $data['Model'] = $this->Notification;
+            $response = $this->IModelRepository->Insert($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+        } catch (Exception $ex) {
+            return view('error');
+        }
     }
 
     /**
@@ -67,9 +76,18 @@ class NotificationController extends Controller
      * @param  \App\Notification  $notification
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Notification $notification)
+    public function Update(Request $request, Notification $notification)
     {
-        //
+        try {
+            $data = [];
+            $data['Model'] = $this->Product;
+            $response = $this->IModelRepository->Update($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+        } catch (Exception $ex) {
+            return view('error');
+        }
     }
 
     /**
@@ -78,8 +96,37 @@ class NotificationController extends Controller
      * @param  \App\Notification  $notification
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Notification $notification)
+    public function Delete(Notification $notification)
     {
-        //
+        try {
+            $data = [];
+            $data['Model'] = $this->Notification;
+            $response = $this->IModelRepository->Delete($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+        } catch (Exception $ex) {
+            return view('error');
+        }
+    }
+
+    /**
+     * Search the specified resource with the filter.
+     *
+     * @param  \App\Notification  $notification
+     * @return \Illuminate\Http\Response
+     */
+    public function Find()
+    {
+        try {
+            $data = [];
+            $data['Model'] = $this->Notification;
+            $response = $this->IModelRepository->Delete($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+        } catch (Exception $ex) {
+            return view('error');
+        }
     }
 }

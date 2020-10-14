@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Branch;
+use App\Models\Branch;
 use Illuminate\Http\Request;
+use App\Repositories\IRepository\IModelRepository;
+use Exception;
+use App\Json\Json;
 
 class BranchController extends Controller
 {
 
-    private IModelRepository $IModelRepository;
+    private $IModelRepository;
     private $Branch;
 
     public function __construct(IModelRepository $IModelRepository) 
@@ -25,15 +28,21 @@ class BranchController extends Controller
     public function List(Request $request)
     {
         try {
+            if($request->isMethod('GET')) {
+                return view('view');
+            }
             $data = [];
             $data['Model'] = $this->Branch;
             $data['Query'] = [
+                'id',
                 'name',
                 'address',
                 'phone',
+                'created_at'
             ];
             $data['Row'] = 'name';
-            Json::Json($request, $data);
+            $response = Json::Json($request, $data);
+            return response()->json($response);
         } catch (Exception $ex) {
             return $this->SendError([$ex->getMessage()]);
         }
