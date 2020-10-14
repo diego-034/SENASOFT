@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
 use Exception;
+use App\Json\Json;
 
 class ProductController extends Controller
 {
@@ -45,7 +46,8 @@ class ProductController extends Controller
                 'created_at'
             ];
             $data['Row'] = 'name';
-            Json::Json($request, $data);
+            $response = Json::Json($request, $data);
+            return response()->json($response);
         } catch (Exception $ex) {
             return $this->SendError([$ex->getMessage()]);
         }
