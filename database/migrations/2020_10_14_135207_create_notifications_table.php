@@ -17,7 +17,7 @@ class CreateNotificationsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('content');
-            $table->foreignId('user_id')->constrained('users')->nullable(); 
+            $table->foreignId('branch_id')->constrained('branches')->nullable(); 
             $table->timestamps();
         });
     }

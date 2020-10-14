@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->decimal('price',11,2);
             $table->string('image');
             $table->bigInteger('iva');
+            $table->foreignId('branch_id')->constrained('branches')->nullable(); 
             $table->timestamps();
         });
     }

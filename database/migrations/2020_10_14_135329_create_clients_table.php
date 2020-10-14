@@ -21,7 +21,7 @@ class CreateClientsTable extends Migration
             $table->string('document');
             $table->string('phone');
             $table->string('email')->unique();
-            $table->foreignId('user_id')->constrained('users')->nullable(); 
+            $table->foreignId('branch_id')->constrained('branches')->nullable(); 
             $table->timestamps();
         });
     }
