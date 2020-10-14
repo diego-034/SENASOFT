@@ -124,6 +124,23 @@ body {
     outline: none;
 }
 
+a{
+    width: 180px;
+    height: 50px;
+    border-radius: 25px;
+    margin-top: 50px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1.15px;
+    background-color: #4B70E2;
+    color: #f9f9f9;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    padding: 17px;
+    text-align: center;
+}
+
 /**/
 .a-container {
     z-index: 100;
