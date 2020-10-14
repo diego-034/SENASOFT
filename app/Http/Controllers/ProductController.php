@@ -4,17 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use App\Repositories\IRepository\IModelRepository;
+use Exception;
 
 class ProductController extends Controller
 {
+
+    private IModelRepository $IModelRepository;
+    private Product $Product;
+
+    public function __construct(IModelRepository $IModelRepository)
+    {
+        $this->IModelRepository = $IModelRepository;
+        $this->Product = new Product();
+        $this->middleware(['auth', 'verified']);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function List()
     {
-        return view('products/products');
+        try {
+            $data = [];
+            $data['Model'] = $this->Product;
+            $response = $this->IModelRepository->List($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+            return view('products.products')->with('response', $response);
+        } catch (Exception $ex) {
+            $this->error();
+        }
     }
 
     /**
@@ -22,9 +46,19 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function Create()
+    public function Insert()
     {
-        return view('products/form-create');
+        try {
+            $data = [];
+            $data['Model'] = $this->Product;
+            $response = $this->IModelRepository->Insert($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+            return view('products.products')->with('response', $response);
+        } catch (Exception $ex) {
+            $this->error();
+        }
     }
 
 
@@ -37,7 +71,17 @@ class ProductController extends Controller
      */
     public function Update(Request $request, Product $product)
     {
-        return view('products/form-update');
+        try {
+            $data = [];
+            $data['Model'] = $this->Product;
+            $Response = $this->IModelRepository->Update($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+            return view('products.products')->with('response', $response);
+        } catch (Exception $ex) {
+            $this->error();
+        }
     }
 
     /**
@@ -46,8 +90,18 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function delete(Product $product)
+    public function Delete(Product $product)
     {
-        
+        try {
+            $data = [];
+            $data['Model'] = $this->Product;
+            $Response = $this->IModelRepository->Delete($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+            return view('products.products')->with('response', $response);
+        } catch (Exception $ex) {
+            $this->error();
+        }
     }
 }
