@@ -7,19 +7,27 @@ use Exception;
 
 class ModelRepository implements IModelRepository {
 
-    private $model;
+    private $Model;
 
-    public function SetModel($model)
+    public function SetModel($Model)
     {
-        $this->model = $model;
+        $this->Model = $Model;
     }
 
     public function List($data) 
     {
         try {
             $response = [];
+            $this->SetModel($data['Model']);
+            $response['OK'] = $this->Model::all();
+            
+            if (!$response['OK']) {
+                $response['Error'] = new Exception("Error");
+            }
 
-        } catch (\Exception $ex) {
+            return $response;
+
+        } catch (Exception $ex) {
             $response['Error'] = $ex;
             return $response;
         }  
@@ -29,8 +37,16 @@ class ModelRepository implements IModelRepository {
     {
         try {
             $response = [];
+            $this->SetModel($data['Model']);
+            $response['OK'] = $this->Model::create($data);
 
-        } catch (\Exception $ex) {
+            if (!$response['OK']) {
+                $response['Error'] = new Exception("Error");
+            }
+
+            return $response;
+
+        } catch (Exception $ex) {
             $response['Error'] = $ex;
             return $response;
         }
@@ -40,8 +56,16 @@ class ModelRepository implements IModelRepository {
     {
         try {
             $response = [];
+            $this->SetModel($data['Model']);
+            $response['OK'] = $this->Model::update($data);
 
-        } catch (\Exception $ex) {
+            if (!$response['OK']) {
+                $response['Error'] = new Exception("Error");
+            }
+
+            return $response;
+
+        } catch (Exception $ex) {
             $response['Error'] = $ex;
             return $response;
         }
@@ -51,8 +75,16 @@ class ModelRepository implements IModelRepository {
     {
         try {
             $response = [];
+            $this->SetModel($data['Model']);
+            $response['OK'] = $this->Model::delete($data);
 
-        } catch (\Exception $ex) {
+            if (!$response['OK']) {
+                $response['Error'] = new Exception("Error");
+            }
+
+            return $response;
+
+        } catch (Exception $ex) {
             $response['Error'] = $ex;
             return $response;
         }
@@ -62,8 +94,16 @@ class ModelRepository implements IModelRepository {
     {
         try {
             $response = [];
+            $this->SetModel($data['Model']);
+            $response['OK'] = $this->Model::find($data);
+
+            if (!$response['OK']) {
+                $response['Error'] = new Exception("Error");
+            }
+
+            return $response;
             
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $response['Error'] = $ex;
             return $response;
         }
