@@ -10,8 +10,8 @@ use Exception;
 class ProductController extends Controller
 {
 
-    private IModelRepository $IModelRepository;
-    private Product $Product;
+    private $IModelRepository;
+    private $Product;
 
     public function __construct(IModelRepository $IModelRepository)
     {
