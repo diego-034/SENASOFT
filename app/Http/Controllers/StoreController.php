@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Store;
 use Illuminate\Http\Request;
+use App\Json\Json;
 
 class StoreController extends Controller
 {
-    private IModelRepository $IModelRepository;
-    private Store $Store;
+    private $IModelRepository;
+    private $Store;
 
     public function __construct(IModelRepository $IModelRepository)
     {
@@ -22,23 +23,29 @@ class StoreController extends Controller
      * @param  \App\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-    public function List($data) 
+    public function List(Request $request)
     {
-        $response = array();
         try {
-            $this->SetModel($data['Model']);
-            $response['OK'] = $this->Model::all();
-            
-            if ($response['OK'] ==  null) {
-                $response['Error'] = new Exception("Error");
+            if($request->isMethod('GET')) {
+                return view('products.products');
             }
-
-            return $response;
-
+            $data = [];
+            $data['Model'] = $this->Product;
+            $data['Query'] = [
+                'id',
+                'name',
+                'stock',
+                'description',
+                'price',
+                'image',
+                'iva',
+                'created_at'
+            ];
+            $data['Row'] = 'name';
+            Json::Json($request, $data);
         } catch (Exception $ex) {
-            $response['Error'] = $ex;
-            return $response;
-        }  
+            return $this->SendError([$ex->getMessage()]);
+        }
     }
 
     /**
@@ -47,22 +54,21 @@ class StoreController extends Controller
      * @param Array Model, Data of Models
      * @return Array Data of DB in $response
      */
-    public function Insert($data)
+  public function Insert(Request $request)
     {
-        $response = array();
         try {
-            $this->SetModel($data['Model']);
-            $response['OK'] = $this->Model::create($data);
-
-            if ($response['OK'] ==  null) {
-                $response['Error'] = new Exception("Error");
+            if($request->isMethod('GET')) {
+                return view('products.form-create');
             }
-
-            return $response;
-
+            $data = [];
+            $data['Model'] = $this->Product;
+            $response = $this->IModelRepository->Insert($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
+            }
+            return view('products.products');
         } catch (Exception $ex) {
-            $response['Error'] = $ex;
-            return $response;
+            return view('error');
         }
     }
 

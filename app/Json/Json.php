@@ -4,7 +4,7 @@ namespace App\Json;
 
 use Exception;
 
-class Json extends Controller
+class Json
 {
     /**
      * Remove the specified resource from storage.
@@ -19,26 +19,22 @@ class Json extends Controller
         $length = $request->json('length');
 
         // Creamos la query para la consulta
-        $data = $data['Model']::query()->select($data['Query']);
-            // ->join('options', 'options.id', '=', 'products.category')
-            // ->join('options as op', 'op.id', '=', 'products.unitOfMeasurement')
-
+        $result = $data['Model']::query()->select($data['Query']);
         // Agregamos las condiciones de filtro
         if (!empty($search['value']))
-            $data = $data->where($data['Row'], '=', $search['value']);
+            $result = $result->where($data['Row'], '=', $search['value']);
 
-        $data = $data->limit($length)
+        $result = $result->limit($length)
             ->offset($start)
             ->get()->toArray();
 
 
         // damos la respuesta en formato JSON como lo requeire el DataTable
-        return response()->json([
+        return [
             'draw' => $request->json('draw'),
-            'recordsTotal' => count($data),
+            'recordsTotal' => count($result),
             'recordsFiltered' => $data['Model']::query()->count('id'),
-            'data' => $data
-        ]);
-       
+            'data' => $result
+        ];
     }
 }

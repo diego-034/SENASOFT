@@ -11,7 +11,8 @@
     @includeJS(['url'=>'products/assets/_products.js', 'params' => [
         '[URL_DELETE]' => route('products-delete'),
         '[PATH_AJAX]' => route('products-list'),
-        '[URL_FORM]' => route('products-update')
+        '[URL_FORM]' => route('products-update'),
+        '[URL_ES]' => asset('i18n/datatables-spanish.json')
     ]])
 @endpush
 
