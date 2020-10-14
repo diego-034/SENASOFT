@@ -44,6 +44,27 @@
                 <li class="app-sidebar__heading">Modulos</li>
                 <li>
                     <a href="#">
+                        <i class="metismenu-icon pe-7s-users"></i>
+                        Usuarios
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                        <a href="{{route('users-list')}}">
+                                <i class="metismenu-icon">
+                                </i>Listar usuarios
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('users-insert')}}">
+                                <i class="metismenu-icon">
+                                </i>Crear usuario
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
                         <i class="metismenu-icon pe-7s-note2"></i>
                         Facturas
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
