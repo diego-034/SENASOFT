@@ -115,7 +115,7 @@ class ProductController extends Controller
                 if (isset($response['Error'])) {
                     throw new Exception($response['Error']->getMessage());
                 }
-                return view('products.form-create')->with('response',$response);
+                return view('products.form-update')->with('response',$response);
             }
             $data = [];
             $response = Validator::make($request->all(), [

@@ -16,19 +16,13 @@
 @section('content')
 
     {{-- ENCABEZAOD --}}
-    @if(!empty($response['OK']->id))
     <x-title-header title="Actualizar Producto"
                     :urls="[['Usuarios', route('products-list')],['Usuario # '. $response['OK']->id]]">
     </x-title-header>
-    @else
-        <x-title-header title="Crear Producto"
-                        :urls="[['Usuarios', route('products-list')],['Crear Usuario']]">
-        </x-title-header>
-    @endif
 
 <div class="card">
     <div class="card-body">
-        <form action="{{ !empty($response['OK']->id) ? route('products-update',['id'=>$response['OK']->id]) : route('products-insert')  }}" method="POST" class="repeater"  onsubmit="handleSubmit()" enctype="multipart/form-data" id="customForm">
+        <form action="{ route('products-update',['id'=>$response['OK']->id]) }}" method="POST" class="repeater"  onsubmit="handleSubmit()" enctype="multipart/form-data" id="customForm">
             @csrf
 
             <div class="loading d-none">
@@ -40,7 +34,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="input-group w-25 float-right">
-                        <input type="text" class="form-control" placeholder="Cantidad" id="numVeces" aria-label="Cantidad"
+                        {{-- <input type="text" class="form-control" placeholder="Cantidad" id="numVeces" aria-label="Cantidad"
                             aria-describedby="button-addon2" style="width: 10%;">
                         <div class="input-group-append">
                             <button type="button" id="btn-add-products"
@@ -48,21 +42,21 @@
                                     data-repeater-create input-quantity="numVeces"><i class="fa fa-plus"></i>
                                 Agregar Producto
                             </button>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="col 12">
-                        <div class="input-group w-25 float-right pr-5">
+                        {{-- <div class="input-group w-25 float-right pr-5">
                             <div class="custom-file">
                                 <input type="file" data-repeater-create-images name="imageMultiple" class="custom-file-input"
                                     id="file-multiple" aria-describedby="inputGroupFileAddon03" multiple> 
                                 <label class="custom-file-label" style="white-space: nowrap;overflow: hidden;">Seleccionar</label>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary mr-1 waves-effect waves-light">
                             <i class="fa fa-save mr-1"></i>
-                            Crear Productos
+                            Actualizar Producto
                         </button>
                     </div>
                 </div>
@@ -143,13 +137,13 @@
                     </div>
 
 
-                    <div class="mb-2">
+                    {{-- <div class="mb-2">
                         <label>Eliminar</label>
                         <button type="button"
                                 class="btn-danger btn-sm form-control"
                                 data-repeater-delete><i class="fa fa-trash"></i>
                         </button>
-                    </div>
+                    </div> --}}
                     
                 </div>
             </div>
@@ -157,7 +151,7 @@
                 <div class="col-12 mt-4">
                     <button type="submit" class="btn btn-primary mr-1 waves-effect waves-light">
                         <i class="fa fa-save mr-1"></i>
-                        Crear Productos
+                        Actualizar Producto
                     </button>
                 </div>
             </div>
