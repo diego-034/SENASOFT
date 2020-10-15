@@ -56,7 +56,7 @@
                                                 <h5 class="text-dark font-weight-bold mb-10">Datos del usuario:</h5>
                                                 <!--begin::Group-->
                                                 <div class="form-group row fv-plugins-icon-container">
-                                                    <label class="col-xl-3 col-lg-3 col-form-label">Correo electrónico</label>
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Nombres</label>
                                                     <div class="col-lg-9 col-xl-9">
                                                         <div class="input-group input-group-solid input-group-lg">
                                                             <div class="input-group-prepend">
@@ -67,6 +67,92 @@
                                                             <input type="text" class="form-control form-control-solid form-control-lg" name="email" value="">
                                                         </div>
                                                     <div class="fv-plugins-message-container"></div></div>
+                                                </div>
+                                                <!--begin::Group-->
+                                                <div class="form-group row fv-plugins-icon-container">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Apellidos</label>
+                                                    <div class="col-lg-9 col-xl-9">
+                                                        <div class="input-group input-group-solid input-group-lg">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">
+                                                                    <i class="pe-7s-user"></i>
+                                                                </span>
+                                                            </div>
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" name="email" value="">
+                                                        </div>
+                                                    <div class="fv-plugins-message-container"></div></div>
+                                                </div>
+                                                <!--end::Group-->
+                                                <!--begin::Group-->
+                                                <div class="form-group row fv-plugins-icon-container">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Dirección</label>
+                                                    <div class="col-lg-9 col-xl-9">
+                                                        <div class="input-group input-group-solid input-group-lg">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">
+                                                                    <i class="pe-7s-map-marker"></i>
+                                                                </span>
+                                                            </div>
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" name="email" value="">
+                                                        </div>
+                                                    <div class="fv-plugins-message-container"></div></div>
+                                                </div>
+                                                <!--end::Group-->
+                                                <!--begin::Group-->
+                                                <div class="form-group row fv-plugins-icon-container">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Documento</label>
+                                                    <div class="col-lg-9 col-xl-9">
+                                                        <div class="input-group input-group-solid input-group-lg">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">
+                                                                    <i class="pe-7s-id"></i>
+                                                                </span>
+                                                            </div>
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" name="email" value="">
+                                                        </div>
+                                                    <div class="fv-plugins-message-container"></div></div>
+                                                </div>
+                                                <!--end::Group-->
+                                                <!--begin::Group-->
+                                                <div class="form-group row fv-plugins-icon-container">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Teléfono</label>
+                                                    <div class="col-lg-9 col-xl-9">
+                                                        <div class="input-group input-group-solid input-group-lg">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">
+                                                                    <i class="pe-7s-call"></i>
+                                                                </span>
+                                                            </div>
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" name="email" value="">
+                                                        </div>
+                                                    <div class="fv-plugins-message-container"></div></div>
+                                                </div>
+                                                <!--end::Group-->
+                                                <!--begin::Group-->
+                                                <div class="form-group row fv-plugins-icon-container">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Correo electrónico</label>
+                                                    <div class="col-lg-9 col-xl-9">
+                                                        <div class="input-group input-group-solid input-group-lg">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">
+                                                                    <i class="pe-7s-mail"></i>
+                                                                </span>
+                                                            </div>
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" name="email" value="">
+                                                        </div>
+                                                    <div class="fv-plugins-message-container"></div></div>
+                                                </div>
+                                                <!--end::Group-->
+                                                <!--begin::Group-->
+                                                <div class="form-group row fv-plugins-icon-container">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Sede<span class="text-danger">*</span></label>
+                                                    <div class="col-lg-9 col-xl-9">
+                                                        <div class="input-group input-group-solid input-group-lg">
+                                                            <select class="form-control select2" id="select2-branch" name="rol" required>
+                                                                <option></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <!--end::Group-->
                                             <!--begin::Wizard Actions-->
@@ -89,5 +175,6 @@
             </div>            
         </div>
     </div>
+
 
 @endsection

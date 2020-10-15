@@ -47,15 +47,11 @@ $(document).ready(function() {
         columns: [
             { data: 'id' },
             { data: 'name' },
-            { data: 'email' },
+            { data: 'address' },
+            { data: 'phone' },
             {
                 data: function(item) {
-                    return item.pros ? item.pros : 'Sin proyecto';
-                }
-            },
-            {
-                data: function(item) {
-                    return item.rol;
+                    return item.created_at = new Date().toLocaleDateString();
                 }
             },
             {
