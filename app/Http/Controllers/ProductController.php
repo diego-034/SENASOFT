@@ -80,8 +80,8 @@ class ProductController extends Controller
                 throw new Exception('Error');
             }
             $items = $request->get('producto');
-            foreach($items as $item){
-                // $file = $request->file("producto.{$key}.image");
+            foreach($items as $key => $item){
+                $file = $request->file("producto.[".$key."].image");
                 // $imageResize = Image::make($file->getRealPath());
                 // $imageResize->resize(350, null, function($constraint) {
                 //     $constraint->aspectRatio();
