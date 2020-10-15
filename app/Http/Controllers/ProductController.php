@@ -98,6 +98,7 @@ class ProductController extends Controller
             return view('error');
         }
     }
+    
     public function SaveImage($file){
         $imageResize = Image::make($file->getRealPath());
         $imageResize->resize(350, null, function($constraint) {
