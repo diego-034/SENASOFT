@@ -10,6 +10,8 @@ use App\Json\Json;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
@@ -79,9 +81,17 @@ class ProductController extends Controller
             }
             $items = $request->get('producto');
             foreach($items as $item){
-                //$item['image'] = Cloudinary::upload($item->file('image')->getRealPath())->getSecurePath();
-                $item['image'] = "aa";
-                $item['stock'] = "20";
+                // $file = $request->file("producto.{$key}.image");
+                // $imageResize = Image::make($file->getRealPath());
+                // $imageResize->resize(350, null, function($constraint) {
+                //     $constraint->aspectRatio();
+                //     $constraint->upsize();
+                // }); 
+                // $imageResize->orientate();
+                // $nombre = sprintf('%s.png', md5($file->getClientOriginalName() . time()));
+                // Storage::disk('public')->put($nombre, $imageResize->stream());
+               
+                $item['image'] =  "";
                 $item['price'] = $item['value'];
                 $item['iva'] = "19";
                 $item['branch_id'] = "1";
@@ -124,18 +134,23 @@ class ProductController extends Controller
             if ($response->fails()) {
                 throw new Exception('Error');
             }
+            $data = [];
             $data['Model'] = $this->Product;
-            $item = $request->get('producto');
-            $item = $item[0];
-            $item['id'] = $id;
-            $item['image'] = "aa";
-            $item['stock'] = "20";
-            $item['price'] = $item['value'];
-            $item['iva'] = "19";
-            $data['Entity'] = $item;
-            $response = $this->IModelRepository->Update($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+            $items = $request->get('producto');
+            foreach($items as $item){
+                //$item['image'] = Cloudinary::upload($item->file('image')->getRealPath())->getSecurePath();
+                $data['Entity']['id'] = $id;
+                $data['Entity']['image'] = "aa";
+                $data['Entity']['stock'] = $item['stock'];
+                $data['Entity']['price'] = $item['value'];
+                $data['Entity']['iva'] = "19";
+                //$data['Entity']['branch_id'] = "1";
+                $data['Entity']['description'] = $item['description'];
+                $data['Entity']['name'] = $item['name'];
+                $response = $this->IModelRepository->Update($data);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
             }
             return view('products.products');
         } catch (Exception $ex) {
