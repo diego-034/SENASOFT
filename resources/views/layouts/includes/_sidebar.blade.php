@@ -106,6 +106,27 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="#" class="{{(request()->is('stores/*')) ? 'mm-active' : ''}} {{(request()->is('stores')) ? 'mm-active' : ''}}">
+                        <i class="metismenu-icon pe-7s-shopbag"></i>
+                        Tiendas
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul class="{{(request()->is('stores/*')) ? 'mm-collapse mm-show' : ''}} {{(request()->is('stores')) ? 'mm-collapse mm-show' : ''}}">
+                        <li>
+                            <a href="{{route('stores-list')}}" class="{{(request()->is('stores')) ? 'mm-active' : ''}}">
+                                <i class="metismenu-icon">
+                                </i>Listar tiendas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('stores-insert')}}" class="{{(request()->is('stores/form')) ? 'mm-active' : ''}}">
+                                <i class="metismenu-icon">
+                                </i>Crear tienda
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
                     <a href="#" class="{{(request()->is('customers/*')) ? 'mm-active' : ''}} {{(request()->is('customers')) ? 'mm-active' : ''}}">
                         <i class="metismenu-icon pe-7s-global"></i>
                         Clientes
