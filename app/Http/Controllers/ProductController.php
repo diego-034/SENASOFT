@@ -107,11 +107,26 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function Update(Request $request, Product $product)
+    public function Update(Request $request, Product $product,$id)
     {
         try {
+            if($request->isMethod('GET')) {
+                $response = $this->Find($id);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
+                return view('products.form-create')->with('response',$response);
+            }
             $data = [];
+            $response = Validator::make($request->all(), [
+                'producto' => 'required'
+            ]);
+            if ($response->fails()) {
+                throw new Exception('Error');
+            }
             $data['Model'] = $this->Product;
+            $data['Entity'] = $request->all();
+            $data['Entity']['id'] = $id;
             $response = $this->IModelRepository->Update($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
@@ -149,18 +164,20 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function Find()
+    public function Find($id)
     {
         try {
             $data = [];
             $data['Model'] = $this->Product;
-            $response = $this->IModelRepository->Delete($data);
+            $data['Entity']['id'] = $id;
+            $response = $this->IModelRepository->Find($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
-            return view('products.products');
+            return $response;
         } catch (Exception $ex) {
-            return view('error');
+            $response['Error'] = $ex;
+            return $response;
         }
     }
 }
