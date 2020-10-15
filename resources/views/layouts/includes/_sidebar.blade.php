@@ -37,7 +37,7 @@
                 <li class="app-sidebar__heading">Dashboard</li>
                 <li>
                     <a href="{{route('home')}}" class="{{(request()->is('home')) ? 'mm-active' : ''}}">
-                        <i class="metismenu-icon pe-7s-rocket"></i>
+                        <i class="metismenu-icon pe-7s-home"></i>
                         Dashboard
                     </a>
                 </li>
@@ -101,6 +101,27 @@
                             <a href="{{route('products-insert')}}" class="{{(request()->is('products/form')) ? 'mm-active' : ''}}">
                                 <i class="metismenu-icon">
                                 </i>Crear producto
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="{{(request()->is('customers/*')) ? 'mm-active' : ''}} {{(request()->is('customers')) ? 'mm-active' : ''}}">
+                        <i class="metismenu-icon pe-7s-global"></i>
+                        Clientes
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul class="{{(request()->is('customers/*')) ? 'mm-collapse mm-show' : ''}} {{(request()->is('customers')) ? 'mm-collapse mm-show' : ''}}">
+                        <li>
+                            <a href="{{route('products-list')}}" class="{{(request()->is('customers')) ? 'mm-active' : ''}}">
+                                <i class="metismenu-icon">
+                                </i>Listar clientes
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('products-insert')}}" class="{{(request()->is('customers/form')) ? 'mm-active' : ''}}">
+                                <i class="metismenu-icon">
+                                </i>Crear cliente
                             </a>
                         </li>
                     </ul>
