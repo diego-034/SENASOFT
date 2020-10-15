@@ -9,6 +9,7 @@ use Exception;
 use App\Json\Json;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ProductController extends Controller
 {
@@ -78,12 +79,13 @@ class ProductController extends Controller
             }
             $items = $request->get('producto');
             foreach($items as $item){
-                $item['image'] = "as";
+                //$item['image'] = Cloudinary::upload($item->file('image')->getRealPath())->getSecurePath();
+                $item['image'] = "aa";
                 $item['stock'] = "20";
                 $item['price'] = $item['value'];
                 $item['iva'] = "19";
                 $item['branch_id'] = "1";
-                $data['Entity'] = $item; 
+                $data['Entity'] = $item;
                 $response = $this->IModelRepository->Insert($data);
                 if (isset($response['Error'])) {
                     throw new Exception($response['Error']->getMessage());
