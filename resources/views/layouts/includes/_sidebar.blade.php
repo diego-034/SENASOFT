@@ -106,6 +106,27 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="#" class="{{(request()->is('branches/*')) ? 'mm-active' : ''}} {{(request()->is('branches')) ? 'mm-active' : ''}}">
+                        <i class="metismenu-icon pe-7s-map-marker"></i>
+                        Sedes
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul class="{{(request()->is('branches/*')) ? 'mm-collapse mm-show' : ''}} {{(request()->is('branches')) ? 'mm-collapse mm-show' : ''}}">
+                        <li>
+                            <a href="{{route('branches-list')}}" class="{{(request()->is('branches')) ? 'mm-active' : ''}}">
+                                <i class="metismenu-icon">
+                                </i>Listar sedes
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('branches-insert')}}" class="{{(request()->is('branches/form')) ? 'mm-active' : ''}}">
+                                <i class="metismenu-icon">
+                                </i>Crear sede
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
                     <a href="#" class="{{(request()->is('stores/*')) ? 'mm-active' : ''}} {{(request()->is('stores')) ? 'mm-active' : ''}}">
                         <i class="metismenu-icon pe-7s-shopbag"></i>
                         Tiendas

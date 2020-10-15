@@ -69,6 +69,14 @@ Route::prefix('stores')->group(function () {
     Route::delete('/delete/{id?}', 'StoreController@delete')->name('stores-delete');
 });
 
+Route::prefix('branches')->group(function () {
+    Route::match(['GET', 'POST'], '/', 'BranchController@List')->name('branches-list');
+    Route::match(['GET', 'POST'], '/form', 'BranchController@Insert')->name('branches-insert');
+    Route::match(['GET', 'POST'], '/form/{id?}', 'BranchController@Update')->name('branches-update');
+    Route::match(['GET', 'POST'], '/find/{id?}', 'BranchController@Find')->name('branches-find');
+    Route::delete('/delete/{id?}', 'BranchController@delete')->name('branches-delete');
+});
+
 
 
 
