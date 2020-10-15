@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Models\UserType;
+use App\Models\Branch;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
@@ -11,6 +12,8 @@ use Exception;
 use App\Json\Json;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+
+use function GuzzleHttp\Promise\all;
 
 class UserController extends Controller
 {
@@ -32,6 +35,7 @@ class UserController extends Controller
     public function List(Request $request)
     {
         try {
+
             if($request->isMethod('GET')) {
                 return view('users.users');
             }
@@ -59,40 +63,39 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+            
+            // $data['Entity'] = [
+            //     'user_type' => '1',
+            //     'branch_id' => '1',
+            //     'document' => "234234",
+            //     'address' => 'Crr Test # Test -Test',
+            //     'phone' => '3016850462',
+            //     'name' => "Admin",
+            //     'lastname' => "asd",
+            //     'email' => "adamincito@maial.com",
+            //     'password' => "$2y$10$/O2ETLscMHEBibQlrVTNd.OKhZ5oXAlcm3RZpArX1uMndRhJ.aAKG"
+            // ];
+
     public function Insert(Request $request)
     {
-
         DB::beginTransaction();
         try {
             if($request->isMethod('GET')) {
                 $Roles = UserType::all()->toArray();
-                return view('users.form-create',['Roles' => $Roles]);
+                $branches = Branch::all()->toArray();
+                return view('users.form-create',[
+                    'Roles' => $Roles,
+                    'branches' => $branches]);
             }
             $data = [];
             $data['Model'] = $this->User;
-            $response = Validator::make($request->all(), [
-                'user' => 'required'
-            ]);
 
-            if ($response->fails()) {
-                throw new Exception('Error');
-            }
-            $items = $request->get('user');
-            foreach($items as $item){
-                $item['name'] = "as";
-                $item['lastname'] = "ee";
-                $item['address'] = "adas";
-                $item['document'] = "19999999";
-                $item['phone'] = "145665";
-                $item['email'] = "example@example.com";
-                $item['password'] = Hash::make('12345678');
-                $item['user_type'] = "12345";
-                $item['branch_id'] = "1";
-                $data['Entity'] = $item; 
-                $response = $this->IModelRepository->Insert($data);
-                if (isset($response['Error'])) {
-                    throw new Exception($response['Error']->getMessage());
-                }
+            $item = $request->all();
+            $data['Entity'] = $item;
+            $response = $this->IModelRepository->Insert($data);
+            if (isset($response['Error'])) {
+                throw new Exception($response['Error']->getMessage());
             }
             DB::commit();
             return view('users.users');
