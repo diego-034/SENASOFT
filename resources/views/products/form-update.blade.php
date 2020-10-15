@@ -22,7 +22,7 @@
 
 <div class="card">
     <div class="card-body">
-        <form action="{ route('products-update',['id'=>$response['OK']->id]) }}" method="POST" class="repeater"  onsubmit="handleSubmit()" enctype="multipart/form-data" id="customForm">
+        <form action="{{ route('products-update',['id'=>$response['OK']->id]) }}" method="POST" class="repeater"  onsubmit="handleSubmit()" enctype="multipart/form-data" id="customForm">
             @csrf
 
             <div class="loading d-none">

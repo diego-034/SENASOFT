@@ -124,18 +124,23 @@ class ProductController extends Controller
             if ($response->fails()) {
                 throw new Exception('Error');
             }
+            $data = [];
             $data['Model'] = $this->Product;
-            $item = $request->get('producto');
-            $item = $item[0];
-            $item['id'] = $id;
-            $item['image'] = "aa";
-            $item['stock'] = "20";
-            $item['price'] = $item['value'];
-            $item['iva'] = "19";
-            $data['Entity'] = $item;
-            $response = $this->IModelRepository->Update($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+            $items = $request->get('producto');
+            foreach($items as $item){
+                //$item['image'] = Cloudinary::upload($item->file('image')->getRealPath())->getSecurePath();
+                $data['Entity']['id'] = $id;
+                $data['Entity']['image'] = "aa";
+                $data['Entity']['stock'] = "20";
+                $data['Entity']['price'] = $item['value'];
+                $data['Entity']['iva'] = "19";
+                //$data['Entity']['branch_id'] = "1";
+                $data['Entity']['description'] = $item['description'];
+                $data['Entity']['name'] = $item['name'];
+                $response = $this->IModelRepository->Update($data);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
             }
             return view('products.products');
         } catch (Exception $ex) {
