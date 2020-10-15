@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Image;
+use Excel;
 
 class ProductController extends Controller
 {
@@ -72,6 +74,10 @@ class ProductController extends Controller
             }
             $data = [];
             $data['Model'] = $this->Product;
+            if($request->file('excel')){
+                $this->importExcel($request->file('excel'));
+                return view('products.products');
+            }
             $response = Validator::make($request->all(), [
                 'producto' => 'required'
             ]);
@@ -205,21 +211,24 @@ class ProductController extends Controller
     }
 
 
-    public function importExcel()
+    public function importExcel($file)
     {
-        
-        Excel::load('productos.xlsx', function ($reader) {
-           
-            foreach ($reader->get() as $key => $row) {
-                $producto = [
-                    'articulo' => $row['articulo'],
-                    'cantidad' => $row['cantidad'],
-                    'precio_unitario' => $row['precio_unitario'],
-                    'fecha_registro' => $row['fecha_registro'],
-                    'status' => $row['status'],
+        // $name = $file->getClientOriginalName();
+        // Storage::disk('public')->put("excel/".$name, File::get($file));
+        Excel::load("/storage/excel/Excel_Prueba.xlsx", function ($reader) {
+            $data = $reader->get();
+            foreach ($data as $key => $row) {
+                $product = [
+                    'name' => $row['name'],
+                    'stock' => $row['stock'],
+                    'description' => $row['description'],
+                    'price' => $row['price'],
+                    'image' => $row['image'],
+                    'iva' => $row['iva'],
+                    'branch_id' => $row['branch_id']
                 ];
-                if (!empty($producto)) {
-                    DB::table('productos')->insert($producto);
+                if (!empty($product)) {
+                    DB::table('products')->insert($product);
                 }
             }
         });

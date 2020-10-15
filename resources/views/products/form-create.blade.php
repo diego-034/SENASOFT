@@ -41,7 +41,7 @@
 
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('products-insert')  }}" method="POST" class="repeater"  onsubmit="handleSubmit()" enctype="multipart/form-data" id="customForm">
+        <form action="{{ route('products-insert')  }}" method="POST" class="repeater"  onsubmit="handleSubmit()" enctype="multipart/form-data" id="customForm" novalidate>
             @csrf
 
             <div class="loading d-none">
@@ -79,11 +79,12 @@
                                 Crear Productos
                             </button>
                         </div>
-                        <div class="col-sm-3">
-                            <button type="submit" class="btn btn-secondary mr-1 waves-effect waves-light">
-                                <i class="pe-7s-file mr-1"></i>
-                                Cargar excel
-                            </button>
+                        <div class="col-sm-4">
+                            <div class="custom-file">
+                                <input type="file" name="excel" class="custom-file-input"  accept=".xlsx,.xls"
+                                    aria-describedby="inputGroupFileAddon03">
+                                <label class="custom-file-label" style="white-space: nowrap;overflow: hidden;">Cargar excel</label>
+                            </div>
                         </div>
                     </div>
                 </div>
