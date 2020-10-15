@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
 use Exception;
@@ -10,16 +10,16 @@ use App\Json\Json;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
-class ClientController extends Controller
+class CustomerController extends Controller
 {   
 
     private $IModelRepository;
-    private $Client;
+    private $Customer;
 
     public function __construct(IModelRepository $IModelRepository) 
     {   
         $this->IModelRepository = $IModelRepository;
-        $this->Client = new Client();
+        $this->Customer = new Customer();
         $this->middleware('auth');
     }
     
@@ -35,7 +35,7 @@ class ClientController extends Controller
                 return view('view');
             }
             $data = [];
-            $data['Model'] = $this->Client;
+            $data['Model'] = $this->Customer;
             $data['Query'] = [
                 'id',
                 'name',
@@ -66,7 +66,7 @@ class ClientController extends Controller
                 return view('customers.form-create');
             }
             $data = [];
-            $data['Model'] = $this->Client;
+            $data['Model'] = $this->Customer;
             $response = Validator::make($request->all(), [
                 'customer' => 'required'
             ]);
@@ -101,14 +101,14 @@ class ClientController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Client  $client
+     * @param  \App\Customer  $Customer
      * @return \Illuminate\Http\Response
      */
-    public function Update(Request $request, Client $client)
+    public function Update(Request $request, Customer $Customer)
     {
         try {
             $data = [];
-            $data['Model'] = $this->Client;
+            $data['Model'] = $this->Customer;
             $response = $this->IModelRepository->Update($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
@@ -121,14 +121,14 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Client  $client
+     * @param  \App\Customer  $Customer
      * @return \Illuminate\Http\Response
      */
     public function Delete($id)
     {
         try {
             $data = [];
-            $data['Model'] = $this->Client;
+            $data['Model'] = $this->Customer;
             $data['Entity']['id'] = $id;
             $response = $this->IModelRepository->Delete($data);
             if (isset($response['Error'])) {
@@ -143,14 +143,14 @@ class ClientController extends Controller
     /**
      * Search the specified resource with the filter.
      *
-     * @param  \App\Client  $client
+     * @param  \App\Customer  $Customer
      * @return \Illuminate\Http\Response
      */
     public function Find()
     {
         try {
             $data = [];
-            $data['Model'] = $this->Client;
+            $data['Model'] = $this->Customer;
             $response = $this->IModelRepository->Delete($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());

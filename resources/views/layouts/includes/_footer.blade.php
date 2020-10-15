@@ -9,7 +9,7 @@
                 <ul class="nav">
                     <li class="nav-item">
                         <a href="javascript:void(0);" class="nav-link">
-                            Footer Link 3
+                            SenaSoft 2020
                         </a>
                     </li>
                 </ul>

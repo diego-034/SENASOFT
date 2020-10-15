@@ -113,13 +113,13 @@
                     </a>
                     <ul class="{{(request()->is('customers/*')) ? 'mm-collapse mm-show' : ''}} {{(request()->is('customers')) ? 'mm-collapse mm-show' : ''}}">
                         <li>
-                            <a href="{{route('products-list')}}" class="{{(request()->is('customers')) ? 'mm-active' : ''}}">
+                            <a href="{{route('customers-list')}}" class="{{(request()->is('customers')) ? 'mm-active' : ''}}">
                                 <i class="metismenu-icon">
                                 </i>Listar clientes
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('products-insert')}}" class="{{(request()->is('customers/form')) ? 'mm-active' : ''}}">
+                            <a href="{{route('customers-insert')}}" class="{{(request()->is('customers/form')) ? 'mm-active' : ''}}">
                                 <i class="metismenu-icon">
                                 </i>Crear cliente
                             </a>
