@@ -17,7 +17,7 @@
 
     {{-- ENCABEZAOD --}}
     <x-title-header title="Actualizar Producto"
-                    :urls="[['Usuarios', route('products-list')],['Usuario # '. $response['OK']->id]]">
+                    :urls="[['Productos', route('products-list')],['Producto # '. $response['OK']->id]]">
     </x-title-header>
 
 <div class="card">

@@ -16,15 +16,11 @@
 @section('content')
 
     {{-- ENCABEZAOD --}}
-    @if(!empty($User->id))
-    <x-title-header title="Actualizar Usuario"
-                    :urls="[['Usuarios', route('products-list')],['Usuario # '. $User->id]]">
-    </x-title-header>
-    @else
+    
         <x-title-header title="Crear Producto"
-                        :urls="[['Usuarios', route('products-list')],['Crear Usuario']]">
+                        :urls="[['Productos', route('products-list')],['Crear Producto']]">
         </x-title-header>
-    @endif
+ 
 
 <div class="card">
     <div class="card-body">
