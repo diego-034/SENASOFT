@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Store;
 use Illuminate\Http\Request;
+use App\Repositories\IRepository\IModelRepository;
 use App\Json\Json;
+use Exception;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class StoreController extends Controller
 {
@@ -30,7 +34,7 @@ class StoreController extends Controller
                 return view('stores.stores');
             }
             $data = [];
-            $data['Model'] = $this->Product;
+            $data['Model'] = $this->Store;
             $data['Query'] = [
                 'id',
                 'name',
@@ -58,15 +62,14 @@ class StoreController extends Controller
     {
         try {
             if($request->isMethod('GET')) {
-                return view('products.form-create');
+                return view('stores.form-create');
             }
             $data = [];
-            $data['Model'] = $this->Product;
+            $data['Model'] = $this->Store;
             $response = $this->IModelRepository->Insert($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
-            return view('products.products');
         } catch (Exception $ex) {
             return view('error');
         }

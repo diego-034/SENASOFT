@@ -31,7 +31,7 @@ class BranchController extends Controller
     {
         try {
             if($request->isMethod('GET')) {
-                return view('view');
+            return view('branches.branches');
             }
             $data = [];
             $data['Model'] = $this->Branch;
@@ -60,7 +60,7 @@ class BranchController extends Controller
         DB::beginTransaction();
         try {
             if($request->isMethod('GET')) {
-                return view('view');
+                return view('branches.form-create');
             }
             $data = [];
             $data['Model'] = $this->Branch;
@@ -84,7 +84,7 @@ class BranchController extends Controller
                 }
             }
             DB::commit();
-            return view('view');
+            return view('branches.branches');
         } catch (Exception $ex) {
             DB::rollback();
             return view('error');
