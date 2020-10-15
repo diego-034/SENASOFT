@@ -138,19 +138,9 @@
                         </div>
 
                         <div class="col mb-3">
-                            <label class="control-label">Colores</label>
-                            <div class="input-group mb-3">
-                                <select class="form-control select2-colors" name="color" multiple>
-                                    <option value="#FFFF00">Amarillo</option>
-                                    <option value="#0000FF">Azul</option>
-                                    <option value="#FF0000">Rojo</option>
-                                    <option value="#00FF00">Verde</option>
-                                    <option value="#FF9C00">Naranja</option>
-                                    <option value="#800080">Morado</option>
-                                    <option value="#FFFFFF">Blanco</option>
-                                    <option value="#000000">Negro</option>
-                                </select>
-                            </div>
+                            <label for="stock">Stock</span></label>
+                            <input id="stock" name="stock" type="text" class="form-control"
+                                value="{{ !empty($Products)? $Products->value : ''}}">
                         </div>
 
                     </div>

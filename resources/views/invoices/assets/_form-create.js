@@ -36,3 +36,61 @@ $(document).ready(function() {
     init_repeater();
     init_select2();
 });
+
+function AddCar() {
+    let flag = true;
+    let count = 0;
+    let product = {
+        id: $("#product").val(),
+        quantity: $("#quantity").val(),
+        total: $("#total").val()
+    };
+    do {
+        if (localStorage.getItem("product_" + count)) {
+            count++;
+        } else {
+            localStorage.setItem("product_" + count, JSON.stringify(product));
+            flag = false;
+        }
+    } while (flag);
+    let content = `<tr id="row_${count}">
+        <td>${$('#product option:selected').text()}</td>
+        <td>${product.quantity}</td>
+        <td>${product.total}</td> 
+        <td>
+            <span class = "material-icons ico-red ml-3" onclick="Remove(${count})" >
+            delete </span> 
+        </td> 
+    </tr>`;
+    $("tbody").append(content);
+    let total = $("#totalInvoice").val();
+    let value = parseFloat(total) + parseFloat($("#total").val());
+    $("#totalInvoice").val(value);
+    $("#product").val("");
+    $("#product").trigger("change");
+    $("#quantity").val(0);
+    $("#subtotal").val(0);
+    $("#price").val(0);
+    $("#discount").val(0);
+    $("#total").val(0);
+    Hide();
+}
+$("#product").on("change", function() {
+    if (this.value == "") {
+        return;
+    }
+    var url =
+        location.protocol + "//" + location.host + "/NewImperial/products/find";
+    var form = new FormData();
+    form.append("id", this.value);
+    fetch(url, {
+            method: "POST",
+            body: form,
+        })
+        .then((res) => res.json())
+        .catch((error) => console.error("Error:", error))
+        .then(function(response) {
+            stock = response.OK[0].Cantidad;
+            $("#price").val(response.OK[0].Precio);
+        });
+});
