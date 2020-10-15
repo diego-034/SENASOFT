@@ -107,9 +107,45 @@ class UserController extends Controller
      * @param  \App\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-    public function Update(UserType $userType)
+    public function Update(Request $request, $id)
     {
-        return view('users.form-update');
+
+        try {
+            if($request->isMethod('GET')) {
+                $response = $this->Find($id);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
+                return view('users.form-update')->with('response', $response);
+            }
+
+            $data = [];
+            $response = Validator::make($request->all(), [
+                'user' => 'required'
+            ]);
+            if ($response->fails()) {
+                throw new Exception('Error');
+            }
+            $data = [];
+            $data['Model'] = $this->User;
+            $items = $request->get('user');
+            foreach($items as $item){
+                //$item['image'] = Cloudinary::upload($item->file('image')->getRealPath())->getSecurePath();
+                $data['Entity']['id'] = $id;
+                $data['Entity']['name'] = "aa";
+                $data['Entity']['lastname'] = "20";
+                $data['Entity']['document'] = $item['value'];
+                $data['Entity']['phone'] = "19";
+                $data['Entity']['email'] = "newemail@example.com";
+                $response = $this->IModelRepository->Update($data);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
+            }
+            return view('products.products');
+        } catch (Exception $ex) {
+            return view('error');
+        }
     }
 
     /**
@@ -141,18 +177,20 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function Find()
+    public function Find($id)
     {
         try {
             $data = [];
             $data['Model'] = $this->User;
-            $response = $this->IModelRepository->Delete($data);
+            $data['Entity']['id'] = $id;
+            $response = $this->IModelRepository->Find($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
-            return view('users.users');
+            return $response;
         } catch (Exception $ex) {
-            return view('error');
+            $response['Error'] = $ex;
+            return $response;
         }
     }
 }
