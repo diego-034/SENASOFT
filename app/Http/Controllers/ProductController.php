@@ -125,8 +125,14 @@ class ProductController extends Controller
                 throw new Exception('Error');
             }
             $data['Model'] = $this->Product;
-            $data['Entity'] = $request->all();
-            $data['Entity']['id'] = $id;
+            $item = $request->get('producto');
+            $item = $item[0];
+            $item['id'] = $id;
+            $item['image'] = "aa";
+            $item['stock'] = "20";
+            $item['price'] = $item['value'];
+            $item['iva'] = "19";
+            $data['Entity'] = $item;
             $response = $this->IModelRepository->Update($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());

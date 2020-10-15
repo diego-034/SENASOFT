@@ -32,7 +32,7 @@ class CustomerController extends Controller
     {
         try {
             if($request->isMethod('GET')) {
-                return view('view');
+                return view('customers.customers');
             }
             $data = [];
             $data['Model'] = $this->Customer;
