@@ -82,7 +82,7 @@
                         <div class="col-sm-3">
                             <button type="submit" class="btn btn-secondary mr-1 waves-effect waves-light">
                                 <i class="fa fa-save mr-1"></i>
-                                Cargar PDF
+                                Cargar excel
                             </button>
                         </div>
                     </div>
