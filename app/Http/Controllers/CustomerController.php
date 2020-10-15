@@ -104,15 +104,41 @@ class CustomerController extends Controller
      * @param  \App\Customer  $Customer
      * @return \Illuminate\Http\Response
      */
-    public function Update(Request $request, Customer $Customer)
+    public function Update(Request $request, $id)
     {
         try {
+            if($request->isMethod('GET')) {
+                $response = $this->Find($id);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
+                return view('customers.form-update')->with('response',$response);
+            }
+            $data = [];
+            $response = Validator::make($request->all(), [
+                'customer' => 'required'
+            ]);
+            if ($response->fails()) {
+                throw new Exception('Error');
+            }
             $data = [];
             $data['Model'] = $this->Customer;
-            $response = $this->IModelRepository->Update($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+            $items = $request->get('customer');
+            foreach($items as $item){
+                //$item['image'] = Cloudinary::upload($item->file('image')->getRealPath())->getSecurePath();
+                $data['Entity']['name'] = $id;
+                $data['Entity']['lastname'] = "aa";
+                $data['Entity']['address'] = "20";
+                $data['Entity']['document'] = "5555";
+                $data['Entity']['phone'] = "19";
+                $data['Entity']['email'] = "newemail@example.com";
+                $data['Entity']['name'] = $item['name'];
+                $response = $this->IModelRepository->Update($data);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
             }
+            return view('customers.customers');
         } catch (Exception $ex) {
             return view('error');
         }
@@ -146,17 +172,20 @@ class CustomerController extends Controller
      * @param  \App\Customer  $Customer
      * @return \Illuminate\Http\Response
      */
-    public function Find()
+    public function Find($id)
     {
         try {
             $data = [];
             $data['Model'] = $this->Customer;
-            $response = $this->IModelRepository->Delete($data);
+            $data['Entity']['id'] = $id;
+            $response = $this->IModelRepository->Find($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
+            return $response;
         } catch (Exception $ex) {
-            return view('error');
+            $response['Error'] = $ex;
+            return $response;
         }
     }
 }

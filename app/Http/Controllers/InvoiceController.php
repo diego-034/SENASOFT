@@ -58,12 +58,11 @@ class InvoiceController extends Controller
 
     public function Insert(Request $request)
     {
-
-        $products = Product::all()->toArray();
-
+        
         DB::beginTransaction();
         try {
             if($request->isMethod('GET')) {
+                $products = Product::all()->toArray();
                 return view('invoices.form-create',['products'=> $products]);
             }
             $data = [];
@@ -104,16 +103,40 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function Update(Request $request, Invoice $invoice)
+    public function Update(Request $request, $id)
     {
+
         try {
-            $data = [];
-            $data['Model'] = $this->Invoice;
-            $response = $this->IModelRepository->Update($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+            if($request->isMethod('GET')) {
+                $response = $this->Find($id);
+                return view('invoices.form-update')->with('response',$response);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
             }
-            return view('invoices.form-update');
+            $data = [];
+            $response = Validator::make($request->all(), [
+                'producto' => 'required'
+            ]);
+            if ($response->fails()) {
+                throw new Exception('Error');
+            }
+            $data = [];
+            $data['Model'] = $this->Product;
+            $items = $request->get('producto');
+            foreach($items as $item){
+                //$item['image'] = Cloudinary::upload($item->file('image')->getRealPath())->getSecurePath();
+                $data['Entity']['id'] = $id;
+                $data['Entity']['total'] = "aa";
+                $data['Entity']['total_discount'] = "20";
+                $data['Entity']['total_iva'] = "19";
+                $data['Entity']['state'] = "1";
+                $response = $this->IModelRepository->Update($data);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
+            }
+            return view('products.products');
         } catch (Exception $ex) {
             return view('error');
         }
@@ -147,17 +170,20 @@ class InvoiceController extends Controller
      * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function Find()
+    public function Find($id)
     {
         try {
             $data = [];
             $data['Model'] = $this->Invoice;
-            $response = $this->IModelRepository->Delete($data);
+            $data['Entity']['id'] = $id;
+            $response = $this->IModelRepository->Find($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());
             }
+            return $response;
         } catch (Exception $ex) {
-            return view('error');
+            $response['Error'] = $ex;
+            return $response;
         }
     }
 }

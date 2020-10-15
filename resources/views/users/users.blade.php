@@ -44,7 +44,7 @@
                 <div class="col text-right">
                     <a href="{{ route('users-update') }}" class="btn btn-dark">
                         <i class="fa fa-save"></i>
-                        Crear Producto
+                        Crear Usuario
                     </a>
                 </div>
             </div>
@@ -57,9 +57,10 @@
                             <tr>
                                 <th>Codigo</th>
                                 <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Categoria</th>
-                                <th>Unidad de medida</th>
+                                <th>Apellido</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
+                                <th>Fecha de creación</th>
                                 <th></th>
                             </tr>
                         </thead>
