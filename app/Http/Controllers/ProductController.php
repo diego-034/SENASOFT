@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Storage;
-
+use Image;
 
 class ProductController extends Controller
 {
@@ -81,17 +81,7 @@ class ProductController extends Controller
             }
             $items = $request->get('producto');
             foreach($items as $key => $item){
-                $file = $request->file("producto.[".$key."].image");
-                // $imageResize = Image::make($file->getRealPath());
-                // $imageResize->resize(350, null, function($constraint) {
-                //     $constraint->aspectRatio();
-                //     $constraint->upsize();
-                // }); 
-                // $imageResize->orientate();
-                // $nombre = sprintf('%s.png', md5($file->getClientOriginalName() . time()));
-                // Storage::disk('public')->put($nombre, $imageResize->stream());
-               
-                $item['image'] =  "";
+                $item['image'] =  $this->SaveImage($request->file("producto.{$key}.image"));
                 $item['price'] = $item['value'];
                 $item['iva'] = "19";
                 $item['branch_id'] = "1";
@@ -107,6 +97,18 @@ class ProductController extends Controller
             DB::rollback();
             return view('error');
         }
+    }
+    
+    public function SaveImage($file){
+        $imageResize = Image::make($file->getRealPath());
+        $imageResize->resize(350, null, function($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        }); 
+        $imageResize->orientate();
+        $nombre = sprintf('%s.png', md5($file->getClientOriginalName() . time()));
+        Storage::disk('public')->put($nombre, $imageResize->stream());
+        return $nombre;
     }
 
 
@@ -200,5 +202,26 @@ class ProductController extends Controller
             $response['Error'] = $ex;
             return $response;
         }
+    }
+
+
+    public function importExcel()
+    {
+        
+        Excel::load('productos.xlsx', function ($reader) {
+           
+            foreach ($reader->get() as $key => $row) {
+                $producto = [
+                    'articulo' => $row['articulo'],
+                    'cantidad' => $row['cantidad'],
+                    'precio_unitario' => $row['precio_unitario'],
+                    'fecha_registro' => $row['fecha_registro'],
+                    'status' => $row['status'],
+                ];
+                if (!empty($producto)) {
+                    DB::table('productos')->insert($producto);
+                }
+            }
+        });
     }
 }
