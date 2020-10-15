@@ -10,6 +10,21 @@
     <script src="{{ asset('js/libs/jquery-confirm.min.js')}}"></script>
     <script src="{{ asset('js/libs/jquery.repeater.js')}}"></script>
     <script src="{{ asset('js/libs/select2.min.js')}}"></script>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+  <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('7d55947cf8b870239a81', {
+      cluster: 'us2'
+    });
+
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event', function(data) {
+      alert(JSON.stringify(data));
+    });
+  </script>
     @includeJS(["url" => "products/assets/_form-create.js"])
 @endpush
 
