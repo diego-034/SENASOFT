@@ -69,7 +69,7 @@
                 <div data-repeater-item class="form-row border-bottom pt-3 pl-5">
                     
                     <div class="conent-img" style="width: 75px;height: 75px;overflow: hidden;border-radius: 3px; border: 1px solid #c2c2c2;">
-                        <img name="imagePreview" style="width: 100%"/>
+                        <img src="{{ Storage::path('public/'.$response['OK']->image)}}" name="imagePreview" style="width: 100%" />
                     </div>
 
                     <div class="col-md-4">
