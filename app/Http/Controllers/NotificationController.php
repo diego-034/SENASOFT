@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
 use Exception;
 use App\Json\Json;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class NotificationController extends Controller
 {
@@ -55,17 +57,35 @@ class NotificationController extends Controller
      */
     public function Insert(Request $request)
     {
+
+        DB::beginTransaction();
         try {
             if($request->isMethod('GET')) {
                 return view('view');
             }
             $data = [];
             $data['Model'] = $this->Notification;
-            $response = $this->IModelRepository->Insert($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+            $response = Validator::make($request->all(), [
+                'notification' => 'required'
+            ]);
+
+            if ($response->fails()) {
+                throw new Exception('Error');
             }
+            $items = $request->get('notification');
+            foreach($items as $item){
+                $item['name'] = "as";
+                $item['content'] = "aaa";
+                $data['Entity'] = $item; 
+                $response = $this->IModelRepository->Insert($data);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
+            }
+            DB::commit();
+            return view('view');
         } catch (Exception $ex) {
+            DB::rollback();
             return view('error');
         }
     }
@@ -81,7 +101,7 @@ class NotificationController extends Controller
     {
         try {
             $data = [];
-            $data['Model'] = $this->Product;
+            $data['Model'] = $this->Notification;
             $response = $this->IModelRepository->Update($data);
             if (isset($response['Error'])) {
                 throw new Exception($response['Error']->getMessage());

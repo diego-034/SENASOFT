@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
 use Exception;
 use App\Json\Json;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {   
@@ -58,17 +60,39 @@ class ClientController extends Controller
      */
     public function Insert(Request $request)
     {
+        DB::beginTransaction();
         try {
-            if ($request->isMethod('GET')) {
-                return view('view');
+            if($request->isMethod('GET')) {
+                return view('customers.form-create');
             }
             $data = [];
             $data['Model'] = $this->Client;
-            $response = $this->IModelRepository->Insert($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+            $response = Validator::make($request->all(), [
+                'customer' => 'required'
+            ]);
+
+            if ($response->fails()) {
+                throw new Exception('Error');
             }
+            $items = $request->get('customer');
+            foreach($items as $item){
+                $item['name'] = "as";
+                $item['lastname'] = "sa";
+                $item['address'] = "address";
+                $item['document'] = "1112233";
+                $item['phone'] = "12345";
+                $item['email'] = "example@example.com";
+                $item['branch_id'] = "1";
+                $data['Entity'] = $item; 
+                $response = $this->IModelRepository->Insert($data);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
+            }
+            DB::commit();
+            return view('customers.customer');
         } catch (Exception $ex) {
+            DB::rollback();
             return view('error');
         }
     }
