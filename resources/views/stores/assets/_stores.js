@@ -47,16 +47,8 @@ $(document).ready(function() {
         columns: [
             { data: 'id' },
             { data: 'name' },
-            { data: 'lastname' },
             { data: 'address' },
             { data: 'phone' },
-            {
-                data: function(item) {
-                    return `
-                    <a href="mailto:${item.email}">${item.email}</a>
-                    `;
-                }
-            },
             {
                 data: function(item) {
                     return item.created_at = new Date().toLocaleDateString();

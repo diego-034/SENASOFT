@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <x-title-header title="Lista de facturas" :urls="[['Usuarios']]"></x-title-header>
+    <x-title-header title="Lista de facturas" :urls="[['Facturas']]"></x-title-header>
 
     <div class="card border-right">
         <div class="card-body"> 

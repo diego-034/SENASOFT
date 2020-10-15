@@ -95,7 +95,7 @@ class ProductController extends Controller
             return view('products.products');
         } catch (Exception $ex) {
             DB::rollback();
-            return view('error');
+            return view('errors.error');
         }
     }
     

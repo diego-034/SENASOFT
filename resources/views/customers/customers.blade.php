@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <x-title-header title="Lista de clientes" :urls="[['Usuarios']]"></x-title-header>
+    <x-title-header title="Lista de clientes" :urls="[['Clientes']]"></x-title-header>
 
     <div class="card border-right">
         <div class="card-body"> 

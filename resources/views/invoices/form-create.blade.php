@@ -34,12 +34,12 @@
 
     {{-- ENCABEZAOD --}}
     @if(!empty($User->id))
-    <x-title-header title="Actualizar Usuario"
-                    :urls="[['Usuarios', route('invoices-list')],['Usuario # '. $User->id]]">
+    <x-title-header title="Actualizar Factura"
+                    :urls="[['Facturas', route('invoices-list')],['Factura # '. $User->id]]">
     </x-title-header>
     @else
-        <x-title-header title="Crear Usuario"
-                        :urls="[['Usuarios', route('invoices-list')],['Crear Usuario']]">
+        <x-title-header title="Crear Factura"
+                        :urls="[['Facturas', route('invoices-list')],['Crear Factura']]">
         </x-title-header>
     @endif
 

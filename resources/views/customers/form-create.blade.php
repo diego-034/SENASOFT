@@ -30,12 +30,12 @@
 
     {{-- ENCABEZAOD --}}
     @if(!empty($User->id))
-        <x-title-header title="Actualizar Usuario"
-                        :urls="[['Usuarios', route('users-list')],['Usuario # '. $User->id]]">
+        <x-title-header title="Actualizar Cliente"
+                        :urls="[['Clientes', route('users-list')],['Usuario # '. $User->id]]">
         </x-title-header>
     @else
-        <x-title-header title="Crear Usuario"
-                        :urls="[['Usuarios', route('users-list')],['Crear Usuario']]">
+        <x-title-header title="Crear Cliente"
+                        :urls="[['Clientes', route('users-list')],['Crear Clientes']]">
         </x-title-header>
     @endif
 
@@ -53,7 +53,7 @@
                                         <div class="col-xl-9">
                                             <!--begin::Wizard Step 1-->
                                             <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-                                                <h5 class="text-dark font-weight-bold mb-10">Datos del usuario:</h5>
+                                                <h5 class="text-dark font-weight-bold mb-10">Datos del cliente:</h5>
                                                 <!--begin::Group-->
                                                 <div class="form-group row fv-plugins-icon-container">
                                                     <label class="col-xl-3 col-lg-3 col-form-label">Nombres</label>
