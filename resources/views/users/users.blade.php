@@ -60,6 +60,7 @@
                                 <th>Apellido</th>
                                 <th>Dirección</th>
                                 <th>Teléfono</th>
+                                <th>Contacto</th>
                                 <th>Fecha de creación</th>
                                 <th></th>
                             </tr>

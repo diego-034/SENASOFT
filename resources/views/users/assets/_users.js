@@ -52,6 +52,13 @@ $(document).ready(function() {
             { data: 'phone' },
             {
                 data: function(item) {
+                    return `
+                    <a href="mailto:${item.email}">${item.email}</a>
+                    `;
+                }
+            },
+            {
+                data: function(item) {
                     return item.created_at = new Date().toLocaleDateString();
                 }
             },

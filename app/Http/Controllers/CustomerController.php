@@ -40,6 +40,7 @@ class CustomerController extends Controller
                 'id',
                 'name',
                 'lastname',
+                'address',
                 'document',
                 'phone',
                 'email',
