@@ -72,11 +72,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary mr-1 waves-effect waves-light">
-                            <i class="fa fa-save mr-1"></i>
-                            Crear Productos
-                        </button>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn btn-primary mr-1 waves-effect waves-light">
+                                <i class="fa fa-save mr-1"></i>
+                                Crear Productos
+                            </button>
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn btn-secondary mr-1 waves-effect waves-light">
+                                <i class="fa fa-save mr-1"></i>
+                                Cargar PDF
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
