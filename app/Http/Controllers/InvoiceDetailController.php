@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
 use Exception;
 use App\Json\Json;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceDetailController extends Controller
 {
@@ -16,7 +18,7 @@ class InvoiceDetailController extends Controller
     public function __construct(IModelRepository $IModelRepository)
     {
         $this->IModelRepository = $IModelRepository;
-        $this->Notification = new Notification();
+        $this->InvoiceDetail = new InvoiceDetail();
         $this->middleware('auth');
     }
 
@@ -58,17 +60,40 @@ class InvoiceDetailController extends Controller
      */
     public function Insert(Request $request)
     {
+
+        DB::beginTransaction();
         try {
             if($request->isMethod('GET')) {
                 return view('view');
             }
             $data = [];
             $data['Model'] = $this->InvoiceDetail;
-            $response = $this->IModelRepository->Insert($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+            $response = Validator::make($request->all(), [
+                'invoicedetail' => 'required'
+            ]);
+
+            if ($response->fails()) {
+                throw new Exception('Error');
             }
+            $items = $request->get('invoicedetail');
+            foreach($items as $item){
+                $item['quantity'] = "20";
+                $item['total'] = "20";
+                $item['discount'] = "10";
+                $item['iva'] = "19";
+                $item['state'] = "1";
+                $item['product_id'] = "1";
+                $item['invoice_id'] = "1";
+                $data['Entity'] = $item; 
+                $response = $this->IModelRepository->Insert($data);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
+            }
+            DB::commit();
+            return view('view');
         } catch (Exception $ex) {
+            DB::rollback();
             return view('error');
         }
     }

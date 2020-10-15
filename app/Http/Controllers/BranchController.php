@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
 use Exception;
 use App\Json\Json;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class BranchController extends Controller
 {
@@ -55,17 +57,36 @@ class BranchController extends Controller
      */
     public function Insert(Request $request)
     {
+        DB::beginTransaction();
         try {
-            if ($request->isMethod('GET')) {
+            if($request->isMethod('GET')) {
                 return view('view');
             }
             $data = [];
             $data['Model'] = $this->Branch;
-            $response = $this->IModelRepository->Insert($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+            $response = Validator::make($request->all(), [
+                'branch' => 'required'
+            ]);
+
+            if ($response->fails()) {
+                throw new Exception('Error');
             }
+            $items = $request->get('branch');
+            foreach($items as $item){
+                $item['name'] = "as";
+                $item['address'] = "20";
+                $item['phone'] = "32323";
+                $item['store_id'] = "19";
+                $data['Entity'] = $item;
+                $response = $this->IModelRepository->Insert($data);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
+            }
+            DB::commit();
+            return view('view');
         } catch (Exception $ex) {
+            DB::rollback();
             return view('error');
         }
     }
