@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Client extends Model
 {
     /**
     * Los atributos que serán asignados.
@@ -12,6 +12,6 @@ class Product extends Model
     * @var array
     */
     protected $fillable = [
-        'name', 'stock', 'description', 'price', 'image', 'iva', 'branch_id'
+        'name', 'lastname', 'address', 'document', 'phone', 'email', 'branch_id'
     ];
 }

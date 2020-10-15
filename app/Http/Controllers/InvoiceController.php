@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
 use Exception;
 use App\Json\Json;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -15,7 +17,7 @@ class InvoiceController extends Controller
     public function __construct(IModelRepository $IModelRepository) 
     {
         $this->IModelRepository = $IModelRepository;
-        $this->Product = new Invoice();
+        $this->Invoice = new Invoice();
         $this->middleware('auth');
     }
 
@@ -59,17 +61,38 @@ class InvoiceController extends Controller
 
         $products = Product::all()->toArray();
 
+        DB::beginTransaction();
         try {
             if($request->isMethod('GET')) {
                 return view('invoices.form-create',['products'=> $products]);
             }
             $data = [];
             $data['Model'] = $this->Invoice;
-            $response = $this->IModelRepository->Insert($data);
-            if (isset($response['Error'])) {
-                throw new Exception($response['Error']->getMessage());
+            $response = Validator::make($request->all(), [
+                'invoice' => 'required'
+            ]);
+
+            if ($response->fails()) {
+                throw new Exception('Error');
             }
+            $items = $request->get('invoice');
+            foreach($items as $item){
+                $item['total'] = "1223";
+                $item['total_discount'] = "333";
+                $item['total_iva'] = "3443";
+                $item['state'] = "1";
+                $item['customer_id'] = "1";
+                $item['user_id'] = "2";
+                $data['Entity'] = $item; 
+                $response = $this->IModelRepository->Insert($data);
+                if (isset($response['Error'])) {
+                    throw new Exception($response['Error']->getMessage());
+                }
+            }
+            DB::commit();
+            return view('invoices.invoices');
         } catch (Exception $ex) {
+            DB::rollback();
             return view('error');
         }
     }

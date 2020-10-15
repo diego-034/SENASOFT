@@ -18,7 +18,7 @@
 
 @section('content')
 
-    <x-title-header title="Lista de usuarios" :urls="[['Usuarios']]"></x-title-header>
+    <x-title-header title="Lista de productos" :urls="[['Productos']]"></x-title-header>
 
     <div class="card border-right">
         <div class="card-body"> 
