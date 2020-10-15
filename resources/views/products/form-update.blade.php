@@ -16,9 +16,9 @@
 @section('content')
 
     {{-- ENCABEZAOD --}}
-    @if(!empty($User->id))
-    <x-title-header title="Actualizar Usuario"
-                    :urls="[['Usuarios', route('products-list')],['Usuario # '. $User->id]]">
+    @if(!empty($response['OK']->id))
+    <x-title-header title="Actualizar Producto"
+                    :urls="[['Usuarios', route('products-list')],['Usuario # '. $response['OK']->id]]">
     </x-title-header>
     @else
         <x-title-header title="Crear Producto"
@@ -28,7 +28,7 @@
 
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('products-insert')  }}" method="POST" class="repeater"  onsubmit="handleSubmit()" enctype="multipart/form-data" id="customForm">
+        <form action="{{ !empty($response['OK']->id) ? route('products-update',['id'=>$response['OK']->id]) : route('products-insert')  }}" method="POST" class="repeater"  onsubmit="handleSubmit()" enctype="multipart/form-data" id="customForm">
             @csrf
 
             <div class="loading d-none">
@@ -92,7 +92,7 @@
                         <div class="col mb-3">
                             <label for="name">Nombre</span></label>
                             <input id="name" name="name" type="text" class="form-control" rows="2"
-                                value="{{ !empty($Products)? $Products->name : ''}}">
+                                value="{{ !empty($response['OK']->name)?$response['OK']->name : ''}}">
                         </div>
 
                     </div>
@@ -103,13 +103,13 @@
                             <label for="description">Descripción</span></label>
                             <textarea class="form-control" maxlength="90" name="description" id="description" rows="1" 
                                     placeholder="Máximo de 90 caracteres"
-                                    >{{ !empty($Products)? $Products->description : ''}}</textarea>
+                                    >{{ !empty($response['OK']->description)? $response['OK']->description : ''}}</textarea>
                         </div>
 
                         <div class="col mb-3">
                             <label for="value">Precio</span></label>
                             <input id="price" name="value" type="text" class="form-control"
-                                value="{{ !empty($Products)? $Products->value : ''}}">
+                                value="{{ !empty($response['OK']->price)? $response['OK']->price : ''}}">
                         </div>
 
                     </div>
