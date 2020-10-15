@@ -10,7 +10,12 @@
     <script src="{{ asset('js/libs/jquery-confirm.min.js')}}"></script>
     <script src="{{ asset('js/libs/jquery.repeater.js')}}"></script>
     <script src="{{ asset('js/libs/select2.min.js')}}"></script>
-    @includeJS(["url" => "invoices/assets/_form-create.js"])
+    @includeJS([
+        "url" => "invoices/assets/_form-create.js",
+        "params" => [
+            '[URL_TMP]' => route('ajax-tmp-invoice')
+        ]
+    ])
 @endpush
 
 @section('content')
@@ -28,7 +33,7 @@
                 </div>
             </div>
             <div class="page-title-actions">
-            </div>   
+            </div>
         </div>
     </div>
 
@@ -55,8 +60,14 @@
             <div class="saving d-none"></div>
 
             <div class="row">
-                <div class="col-12 pr-5">
-                    <div class="input-group w-25 float-right">
+                <div class="col-4">
+                    <label for="customer_id">Cliente</label>
+                    <input type="text" id="customer_id" name="Invoice[customer_id]" class="form-control"
+                           value="{{ Cache::get('tmp_invoice.customer_id', '')  }}"
+                           onchange="saveTemp(this.value,'tmp_invoice.customer_id')">
+                </div>
+                <div class="col-8 pt-4">
+                    <div class="input-group w-50 float-right">
                         <input type="text" class="form-control" placeholder="Cantidad" id="numVeces" aria-label="Cantidad"
                             aria-describedby="button-addon2" style="width: 10%;">
                         <div class="input-group-append">
@@ -79,25 +90,30 @@
                     <div class="col mb-5">
                         <label class="control-label">Producto</label>
                         <div class="input-group mb-3">
-                            <select class="form-control select2-products" name="product">
+                            @php($selected = Cache::get('tmp_invoice.producto[0][product]', ''))
+                            <select class="form-control select2-products" name="product"
+                                    onchange="saveTemp(this.value,'tmp_invoice.'+this.name)">
                                 <option></option>
                                 @foreach($products as $product)
-                                    <option value="{{$product['id']}}">{{$product['name']}}</option>
+                                    <option
+                                        value="{{$product->id}}"
+                                        data-price="{{$product->price}}"
+                                        {{ $selected == $product->id ? 'selected':'' }}>
+                                        {{$product->name}}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-md-2">
-
                         <div class="col mb-3">
-                            <label for="name">Cantidad</span></label>
-                            <input id="name" name="name" type="number" class="form-control" min="0">
+                            <label for="name">Cantidad</label>
+                            <input id="name" name="name" type="number" class="form-control" min="0"
+                                   value="{{ Cache::get('tmp_invoice.producto[0][name]', '')  }}"
+                                   onchange="saveTemp(this.value,'tmp_invoice.'+this.name);updateQuantity(this)">
                         </div>
-
                     </div>
-
                     <div class="col-md-4">
-
                         <div class="col mb-3">
                             <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
                                 <div class="col-md-10">
@@ -112,9 +128,9 @@
                                             </thead>
                                             <tbody>
                                                 <tr class="font-weight-boldest">
-                                                    <td class="text-right pt-7 align-middle">$2000</td>
-                                                    <td class="text-right pt-7 align-middle">$250</td>
-                                                    <td class="text-primary pr-0 pt-7 text-right align-middle">$25200</td>
+                                                    <td class="text-right pt-7 align-middle info-price">$2000</td>
+                                                    <td class="text-right pt-7 align-middle info-iva">$250</td>
+                                                    <td class="text-primary pr-0 pt-7 text-right align-middle info-total">$25200</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -126,19 +142,8 @@
                     </div>
 
                     <div class="col-md-2">
-        
                         <div class="col mb-3">
-                            <label class="control-label">Estado</label>
-                            <select class="select2 form-control" name="status" required>
-                                <option value="1">Activo</option>
-                                <option value="0">Inactivo</option>
-                            </select>
                         </div>
-
-                        <div class="col mb-3">
-
-                        </div>
-
                     </div>
 
 
@@ -149,7 +154,7 @@
                                 data-repeater-delete><i class="fa fa-trash"></i>
                         </button>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="row">

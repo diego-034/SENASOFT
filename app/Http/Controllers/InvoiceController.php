@@ -8,13 +8,15 @@ use Illuminate\Http\Request;
 use App\Repositories\IRepository\IModelRepository;
 use Exception;
 use App\Json\Json;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
 
-    public function __construct(IModelRepository $IModelRepository) 
+    public function __construct(IModelRepository $IModelRepository)
     {
         $this->IModelRepository = $IModelRepository;
         $this->Invoice = new Invoice();
@@ -50,21 +52,32 @@ class InvoiceController extends Controller
         }
     }
 
+
+    public function AjaxTmpInvoice(Request $request) {
+        $value = $request->post('value');
+        $name = $request->post('name');
+        if ($value && $name)
+            Cache::put($name, $value);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function Insert(Request $request)
     {
-        
+
         DB::beginTransaction();
         try {
+
+
             if($request->isMethod('GET')) {
-                $products = Product::all()->toArray();
-                return view('invoices.form-create',['products'=> $products]);
+                return view('invoices.form-create',[
+                    'products'=> Product::all()
+                ]);
             }
+
             $data = [];
             $data['Model'] = $this->Invoice;
             $response = Validator::make($request->all(), [
@@ -82,7 +95,7 @@ class InvoiceController extends Controller
                 $item['state'] = "1";
                 $item['customer_id'] = "1";
                 $item['user_id'] = "2";
-                $data['Entity'] = $item; 
+                $data['Entity'] = $item;
                 $response = $this->IModelRepository->Insert($data);
                 if (isset($response['Error'])) {
                     throw new Exception($response['Error']->getMessage());

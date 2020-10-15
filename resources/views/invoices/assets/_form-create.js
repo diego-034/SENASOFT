@@ -2,6 +2,30 @@ function init_select2() {
     $('.select2-costumers').select2({ placeholder: "Seleccionar" });
 }
 
+function saveTemp(value, name){
+    $.ajax({
+        url: '[URL_TMP]',
+        type: 'POST',
+        data: {value, name},
+        success: function(res){
+            console.log(res)
+        }
+    })
+}
+
+function updateQuantity(element){
+    var contentItem = $(element).parents('[data-repeater-item]');
+
+    var quantity = parseInt(element.value);
+    var price = parseFloat(contentItem.find('.select2-products option:selected').attr('data-price'));
+    var iva = parseFloat(contentItem.find('.select2-products option:selected').attr('data-iva'));
+
+    var sub
+    contentItem.find('.info-price').html('$ '+ (quantity*price));
+    contentItem.find('.info-price').html('$ '+ (quantity*iva));
+    console.log(quantity, price)
+}
+
 function init_repeater() {
     $(".repeater").repeater({
         defaultValues: {
@@ -56,11 +80,11 @@ function AddCar() {
     let content = `<tr id="row_${count}">
         <td>${$('#product option:selected').text()}</td>
         <td>${product.quantity}</td>
-        <td>${product.total}</td> 
+        <td>${product.total}</td>
         <td>
             <span class = "material-icons ico-red ml-3" onclick="Remove(${count})" >
-            delete </span> 
-        </td> 
+            delete </span>
+        </td>
     </tr>`;
     $("tbody").append(content);
     let total = $("#totalInvoice").val();

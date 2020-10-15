@@ -30,6 +30,7 @@ Route::prefix('users')->group(function () {
 });
 
 Route::prefix('invoices')->group(function () {
+    Route::post('/ajax-tmp-invoice', 'InvoiceController@AjaxTmpInvoice')->name('ajax-tmp-invoice');
     Route::match(['GET', 'POST'], '/', 'InvoiceController@List')->name('invoices-list');
     Route::match(['GET', 'POST'], '/form', 'InvoiceController@Insert')->name('invoices-insert');
     Route::match(['GET', 'POST'], '/form/{id?}', 'InvoiceController@Update')->name('invoices-update');
