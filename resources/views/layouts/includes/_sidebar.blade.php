@@ -126,12 +126,6 @@
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="tables-regular.html">
-                        <i class="metismenu-icon pe-7s-display2"></i>
-                        Prueba
-                    </a>
-                </li>
             </ul>
         </div>
     </div>

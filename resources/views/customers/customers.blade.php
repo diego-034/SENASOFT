@@ -18,6 +18,23 @@
 
 @section('content')
 
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-global icon-gradient bg-mean-fruit">
+                    </i>
+                </div>
+                <div>Clientes
+                    <div class="page-title-subheading">Aqui podras interactuar con los clientes
+                    </div>
+                </div>
+            </div>
+            <div class="page-title-actions">
+            </div>   
+        </div>
+    </div>
+
     <x-title-header title="Lista de usuarios" :urls="[['Usuarios']]"></x-title-header>
 
     <div class="card border-right">

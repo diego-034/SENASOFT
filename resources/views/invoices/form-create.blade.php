@@ -15,6 +15,23 @@
 
 @section('content')
 
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-note2 icon-gradient bg-mean-fruit">
+                    </i>
+                </div>
+                <div>Crear facturas
+                    <div class="page-title-subheading">Aqui podras crear facturas
+                    </div>
+                </div>
+            </div>
+            <div class="page-title-actions">
+            </div>   
+        </div>
+    </div>
+
     {{-- ENCABEZAOD --}}
     @if(!empty($User->id))
     <x-title-header title="Actualizar Usuario"
