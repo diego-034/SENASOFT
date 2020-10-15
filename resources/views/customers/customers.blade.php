@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <x-title-header title="Lista de usuarios" :urls="[['Usuarios']]"></x-title-header>
+    <x-title-header title="Lista de clientes" :urls="[['Usuarios']]"></x-title-header>
 
     <div class="card border-right">
         <div class="card-body"> 
@@ -44,7 +44,7 @@
                 <div class="col text-right">
                     <a href="{{ route('customers-update') }}" class="btn btn-dark">
                         <i class="fa fa-save"></i>
-                        Crear Producto
+                        Crear Cliente
                     </a>
                 </div>
             </div>
@@ -57,9 +57,11 @@
                             <tr>
                                 <th>Codigo</th>
                                 <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Categoria</th>
-                                <th>Unidad de medida</th>
+                                <th>Apellido</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
+                                <th>Contacto</th>
+                                <th>Fecha de creación</th>
                                 <th></th>
                             </tr>
                         </thead>

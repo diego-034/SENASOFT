@@ -46,16 +46,12 @@ $(document).ready(function() {
         ],
         columns: [
             { data: 'id' },
-            { data: 'name' },
-            { data: 'email' },
+            { data: 'total' },
+            { data: 'total_discount' },
+            { data: 'total_iva' },
             {
                 data: function(item) {
-                    return item.pros ? item.pros : 'Sin proyecto';
-                }
-            },
-            {
-                data: function(item) {
-                    return item.rol;
+                    return item.created_at = new Date().toLocaleDateString();
                 }
             },
             {
